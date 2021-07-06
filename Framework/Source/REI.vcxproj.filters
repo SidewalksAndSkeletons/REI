@@ -10,6 +10,12 @@
     <Filter Include="Source Files\Core\Kernel">
       <UniqueIdentifier>{07d8fa7c-5a44-4af3-a329-56d554e785ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\System">
+      <UniqueIdentifier>{2e73f866-e054-4b41-b375-a3f6af049115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\System\StdAfx">
+      <UniqueIdentifier>{190f89d7-7461-45a6-bec9-9a9922a4d1a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -18,10 +24,16 @@
     <ClCompile Include="Kernel.cpp">
       <Filter>Source Files\Core\Kernel</Filter>
     </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files\Core\System\StdAfx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kernel.h">
       <Filter>Source Files\Core\Kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Source Files\Core\System\StdAfx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

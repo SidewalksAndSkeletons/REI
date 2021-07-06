@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 // *** Коды завершения программы
 enum class EXIT_TYPE : int
 {
@@ -18,7 +20,7 @@ enum class EXIT_TYPE : int
 };
 
 // *** Точка входа в программу
-int main(int keysCount, char** sourceKeys)
+int main(int, char**)
 {
 	auto GetErrorCode = [](EXIT_TYPE ERROR_CODE) -> int
 	{
