@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Core\System\StdAfx">
       <UniqueIdentifier>{190f89d7-7461-45a6-bec9-9a9922a4d1a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\System\Functions">
+      <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -34,6 +37,12 @@
     </ClInclude>
     <ClInclude Include="StdAfx.h">
       <Filter>Source Files\Core\System\StdAfx</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemFunctionsFilesystem.h">
+      <Filter>Source Files\Core\System\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemFunctionsStrings.h">
+      <Filter>Source Files\Core\System\Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

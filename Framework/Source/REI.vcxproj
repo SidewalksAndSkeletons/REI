@@ -106,6 +106,8 @@
   <ItemGroup>
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="SystemFunctionsFilesystem.h" />
+    <ClInclude Include="SystemFunctionsStrings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
