@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Core\System\StdAfx">
       <UniqueIdentifier>{190f89d7-7461-45a6-bec9-9a9922a4d1a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\System\Debug">
+      <UniqueIdentifier>{6412af99-021c-47cf-9131-353926e50354}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Core\System\Functions">
       <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
     </Filter>
@@ -30,6 +33,9 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files\Core\System\StdAfx</Filter>
     </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Source Files\Core\System\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kernel.h">
@@ -38,11 +44,17 @@
     <ClInclude Include="StdAfx.h">
       <Filter>Source Files\Core\System\StdAfx</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Source Files\Core\System\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="SystemFunctionsFilesystem.h">
       <Filter>Source Files\Core\System\Functions</Filter>
     </ClInclude>
     <ClInclude Include="SystemFunctionsStrings.h">
       <Filter>Source Files\Core\System\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugMacros.h">
+      <Filter>Source Files\Core\System\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

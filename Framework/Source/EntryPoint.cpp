@@ -27,5 +27,9 @@ int main(int, char**)
 		return static_cast<int>(ERROR_CODE);
 	};
 
+    // Инициализируем отладочный модуль
+    if (!Debug.Init())
+        return GetErrorCode(EXIT_TYPE::DEBUG_ERROR);
+
 	return GetErrorCode(EXIT_TYPE::SUCCESS);
 }
