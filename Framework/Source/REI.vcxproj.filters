@@ -4,5 +4,24 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{a893dabb-45f3-4475-a1b6-822364dec9e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Kernel">
+      <UniqueIdentifier>{07d8fa7c-5a44-4af3-a329-56d554e785ac}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EntryPoint.cpp">
+      <Filter>Source Files\Core\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>Source Files\Core\Kernel</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Kernel.h">
+      <Filter>Source Files\Core\Kernel</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
