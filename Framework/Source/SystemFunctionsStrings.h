@@ -2,6 +2,21 @@
 
 namespace String
 {
+    // *** Конвертировать string в const char**
+    struct ToCPtr final
+    {
+    private:
+        const char* Source;
+
+    public:
+        ToCPtr(const std::string& Input) : Source(Input.c_str()) {}
+
+        operator const char** ()
+        {
+            return &Source;
+        }
+    };
+
     // *** Безопасный аналог std::atoi
     // (превращение строки в произвольный тип)
     template <class T>

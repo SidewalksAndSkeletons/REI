@@ -60,7 +60,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -105,18 +105,31 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Kernel.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VBO.cpp" />
+    <ClCompile Include="ViewPoint.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugMacros.h" />
     <ClInclude Include="Kernel.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="SystemConstants.h" />
     <ClInclude Include="SystemFunctionsFilesystem.h" />
     <ClInclude Include="SystemFunctionsStrings.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="VBO.h" />
+    <ClInclude Include="ViewPoint.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

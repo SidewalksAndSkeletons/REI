@@ -26,7 +26,7 @@ inline void DEBUG_ERROR(T&& Msg)
         Debug.SetErrorStatus(true);
 
         // Выводим окно с сообщением об ошибке
-        //SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", Msg, nullptr);
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", Msg, nullptr);
     }
 
     // Печатаем сообщение
@@ -44,7 +44,7 @@ inline void DEBUG_ERROR(T1&& First, T2&&... End)
         Debug.SetErrorStatus(true);
 
         // Выводим окно с сообщением об ошибке
-        //SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", "For details check log-file", nullptr);
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", "For details check log-file", nullptr);
     }
 
     // Печатаем сообщения

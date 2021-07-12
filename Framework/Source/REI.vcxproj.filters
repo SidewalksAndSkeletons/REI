@@ -22,6 +22,36 @@
     <Filter Include="Source Files\Core\System\Functions">
       <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{fe9b687e-e172-40f4-9f00-7a7bb38fe98e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Window">
+      <UniqueIdentifier>{9a22f22a-6d87-4b52-9dc6-310d78e96492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\System\Constants">
+      <UniqueIdentifier>{18eabe28-ff98-443d-a8cc-9334fff4c2e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shaders">
+      <UniqueIdentifier>{700014b7-5c5a-49e5-a113-53463740e2e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shaders\ShadersManager">
+      <UniqueIdentifier>{27e832c2-0e21-40e9-8e81-28bd9c00a0e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Texture">
+      <UniqueIdentifier>{37c75f48-f3e2-4eba-bb7a-ef41bf2aaecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Render">
+      <UniqueIdentifier>{49c6f2c3-f35a-4f17-bd4c-d0caa9404083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Render\VBO">
+      <UniqueIdentifier>{0ae4cb79-a293-4e23-b4aa-3bb96a2a588f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Render\Target">
+      <UniqueIdentifier>{2a99d679-53c3-4213-addf-94618b508342}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\ViewPoint">
+      <UniqueIdentifier>{d3bd2399-d707-4e3f-af14-d312e4af240c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -35,6 +65,24 @@
     </ClCompile>
     <ClCompile Include="Debug.cpp">
       <Filter>Source Files\Core\System\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Graphics\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadersManager.cpp">
+      <Filter>Source Files\Graphics\Shaders\ShadersManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Source Files\Graphics\Render\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="VBO.cpp">
+      <Filter>Source Files\Graphics\Render\VBO</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewPoint.cpp">
+      <Filter>Source Files\Graphics\ViewPoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +103,27 @@
     </ClInclude>
     <ClInclude Include="DebugMacros.h">
       <Filter>Source Files\Core\System\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Source Files\Graphics\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemConstants.h">
+      <Filter>Source Files\Core\System\Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersManager.h">
+      <Filter>Source Files\Graphics\Shaders\ShadersManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Source Files\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Source Files\Graphics\Render\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="VBO.h">
+      <Filter>Source Files\Graphics\Render\VBO</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewPoint.h">
+      <Filter>Source Files\Graphics\ViewPoint</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

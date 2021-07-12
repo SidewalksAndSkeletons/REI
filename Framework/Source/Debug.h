@@ -3,7 +3,7 @@
 // *** Класс, обеспечивающий работу с отладкой
 class CDebug final
 {
-private:
+public:
     // Типы событий в логе
     enum class EVENT_TYPES
     {
@@ -13,6 +13,7 @@ private:
     };
 
 private:
+    // Файл, предназначенный для вывода данных
     std::ofstream LogFile;
 
 private:
@@ -36,7 +37,7 @@ public:
     // *** Получить статус пойманной ошибки
     bool GetErrorStatus() const;
 
-private:
+public:
     // *** Вывести заголовок
     void PrintTitle(EVENT_TYPES Type, const char* File, int Line, const char* Function);
 
@@ -44,17 +45,14 @@ private:
     template <class T>
     void PrintMessage(T&& Msg)
     {
-        if (Msg)
+        if (LogFile.is_open())
         {
-            if (LogFile.is_open())
-            {
-                LogFile << Msg;
-            }
+            LogFile << Msg;
+        }
 
 #ifdef DEBUG
-            PrintToSubSystem(Msg);
+        PrintToSubSystem(Msg);
 #endif
-        }
     }
 
 #ifdef DEBUG
