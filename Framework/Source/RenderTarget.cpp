@@ -333,7 +333,7 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
     CTexture* Texture = new CTexture();
 
     // Запекаем изображение в поверхность
-    SDL_Surface* Surface = TTF_RenderText_Blended(Fonts[Font], Msg, Colors[Color]);
+    SDL_Surface* Surface = TTF_RenderUTF8_Blended(Fonts[Font], Msg, Colors[Color]);
 
     if (!Surface)
     {
@@ -344,7 +344,7 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
     // Обновляем размеры текстуры
     int w = 0;
     int h = 0;
-    TTF_SizeText(Fonts[Font], Msg, &w, &h);
+    TTF_SizeUTF8(Fonts[Font], Msg, &w, &h);
     Texture->SetSize(w, h);
 
     // Генерируем OpenGL-текстуру на основе данных о поверхности
