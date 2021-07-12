@@ -37,15 +37,12 @@ CRenderTarget::~CRenderTarget()
     SDL_GL_DeleteContext(Context);
 
     // Очищаем память, занятую шрифтами
-    if (Fonts.size())
+    for (auto& Iter : Fonts)
     {
-        for (auto& Iter : Fonts)
-        {
-            TTF_CloseFont(Iter.second);
-        }
-
-        Fonts.clear();
+        TTF_CloseFont(Iter.second);
     }
+
+    Fonts.clear();
 
     Colors.clear();
 

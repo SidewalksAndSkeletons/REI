@@ -3,15 +3,12 @@
 CShadersManager::~CShadersManager()
 {
     // Освобождаем память, занятую шейдерами
-    if (Shaders.size())
+    for (auto& It : Shaders)
     {
-        for (auto& It : Shaders)
-        {
-            glDeleteProgram(It.second);
-        }
-
-        Shaders.clear();
+        glDeleteProgram(It.second);
     }
+
+    Shaders.clear();
 }
 
 bool CShadersManager::Init()
