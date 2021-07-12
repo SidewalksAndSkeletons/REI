@@ -10,15 +10,24 @@ CKernel::~CKernel()
 
 bool CKernel::Init()
 {
+    // Инициализация библиотеки SDL2 и её вспомогательных модулей
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         DEBUG_ERROR("SDL initialization failed: ", SDL_GetError());
         return false;
     }
 
+    // Инициализация рендера
     if (!RenderTarget.Init())
     {
         DEBUG_ERROR("RenderTarget initialization failed!");
+        return false;
+    }
+
+    // Инициализация обработчика звуков
+    if (!SoundTarget.Init())
+    {
+        DEBUG_ERROR("SoundTarget initialization failed!");
         return false;
     }
 

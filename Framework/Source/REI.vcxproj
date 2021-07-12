@@ -107,6 +107,7 @@
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
+    <ClCompile Include="SoundTarget.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -122,6 +123,7 @@
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ShadersManager.h" />
+    <ClInclude Include="SoundTarget.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="SystemConstants.h" />
     <ClInclude Include="SystemFunctionsFilesystem.h" />

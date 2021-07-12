@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Graphics\ViewPoint">
       <UniqueIdentifier>{d3bd2399-d707-4e3f-af14-d312e4af240c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{a7785379-b47f-4952-a86c-3a6c79a8b9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound\Target">
+      <UniqueIdentifier>{813d567c-a891-4b05-b455-84a569cfdca7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="ViewPoint.cpp">
       <Filter>Source Files\Graphics\ViewPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTarget.cpp">
+      <Filter>Source Files\Sound\Target</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="ViewPoint.h">
       <Filter>Source Files\Graphics\ViewPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTarget.h">
+      <Filter>Source Files\Sound\Target</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
