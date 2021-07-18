@@ -1,4 +1,6 @@
+<p align="center">
 ![Logo](Stuff/Logo.png?raw=true)
+</p>
 
 # REI
 ## Информация
