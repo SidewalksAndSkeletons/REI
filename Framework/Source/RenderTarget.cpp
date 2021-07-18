@@ -16,6 +16,15 @@ static glm::mat4 OrthoMatrix =
    -1.0f,    1.0f,    -1.0f,    1.0f
 };
 
+// Стандартная TexCoord-матрица для отрисовки единого спрайта
+static glm::mat4x2 TexCoordsMatrix =
+{
+    0.0f, 0.0f,
+    1.0f, 0.0f,
+    1.0f, 1.0f,
+    0.0f, 1.0f
+};
+
 CRenderTarget::CRenderTarget() : Context {}, VAO(0), EBO(0)
 {}
 
@@ -329,9 +338,6 @@ bool CRenderTarget::GenerateTexture(CTexture* Texture, SDL_Surface* Surface, con
 
 CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const char* Color)
 {
-    // Создаём новую текстуру
-    CTexture* Texture = new CTexture();
-
     // Запекаем изображение в поверхность
     SDL_Surface* Surface = TTF_RenderUTF8_Blended(Fonts[Font], Msg, Colors[Color]);
 
@@ -341,11 +347,13 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
         return nullptr;
     }
 
-    // Обновляем размеры текстуры
+    // Получаем размеры запечённого текста
     int w = 0;
     int h = 0;
     TTF_SizeUTF8(Fonts[Font], Msg, &w, &h);
-    Texture->SetSize(w, h);
+
+    // Создаём новую текстуру с указанными размерами
+    CTexture* Texture = new CTexture(w, h);
 
     // Генерируем OpenGL-текстуру на основе данных о поверхности
     bool Result = GenerateTexture(Texture, Surface, GL_RGBA);
@@ -358,9 +366,6 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
 
 CTexture* CRenderTarget::CreateTexture(const std::string_view Path)
 {
-    // Создаём новую текстуру
-    CTexture* Texture = new CTexture();
-
     // Указываем корректный путь
     std::string CorrectPath = "../Textures/";
     String::Unite(CorrectPath, Path);
@@ -377,8 +382,8 @@ CTexture* CRenderTarget::CreateTexture(const std::string_view Path)
     // Устанавливаем формат текстуры
     GLuint Format = (Surface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
 
-    // Обновляем данные о размерах текстуры
-    Texture->SetSize(Surface->w, Surface->h);
+    // Создаём новую текстуру с указанными размерами
+    CTexture* Texture = new CTexture(Surface->w, Surface->h);
 
     // Генерируем OpenGL-текстуру на основе данных о поверхности
     bool Result = GenerateTexture(Texture, Surface, Format);
@@ -411,6 +416,12 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
     glm::vec2 v3 = { static_cast<GLfloat>(x + w),            static_cast<GLfloat>(y + h) };
     glm::vec2 v4 = { static_cast<GLfloat>(x),                static_cast<GLfloat>(y + h) };
 
+    // Используемая матрица с текстурными координатами
+    glm::mat4x2& TMat = TexCoordsMatrix;
+
+    // Если есть - используем уникальную
+    Texture->GetTexCoords(TMat);
+
     // Форматируем массив, основываясь на данных текстурного квадрата
     GLfloat Vertices[] =
     {
@@ -418,10 +429,10 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
             Координаты           Цвета          Текстурные координаты
               вершин                                   (x, y)
         */
-        v1.x, v1.y,     1.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f,    // Верхний левый угол
-        v2.x, v2.y,     1.0f, 1.0f, 1.0f, 1.0f,   1.0f, 0.0f,    // Верхний правый угол
-        v3.x, v3.y,     1.0f, 1.0f, 1.0f, 1.0f,   1.0f, 1.0f,    // Нижний правый угол
-        v4.x, v4.y,     1.0f, 1.0f, 1.0f, 1.0f,   0.0f, 1.0f     // Нижний левый угол
+        v1.x, v1.y,     1.0f, 1.0f, 1.0f, 1.0f,   TMat[0][0], TMat[0][1],    // Верхний левый угол
+        v2.x, v2.y,     1.0f, 1.0f, 1.0f, 1.0f,   TMat[1][0], TMat[1][1],    // Верхний правый угол
+        v3.x, v3.y,     1.0f, 1.0f, 1.0f, 1.0f,   TMat[2][0], TMat[2][1],    // Нижний правый угол
+        v4.x, v4.y,     1.0f, 1.0f, 1.0f, 1.0f,   TMat[3][0], TMat[3][1]     // Нижний левый угол
     };
 
     // Используем шейдер для отрисовки текста
