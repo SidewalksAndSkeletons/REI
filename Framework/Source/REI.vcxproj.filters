@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Sound\Target">
       <UniqueIdentifier>{813d567c-a891-4b05-b455-84a569cfdca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{7bdfa66c-4ca1-4ad4-8b3a-884c85f297a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -137,5 +140,18 @@
     <ClInclude Include="SoundTarget.h">
       <Filter>Source Files\Sound\Target</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="REI.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

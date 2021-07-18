@@ -122,6 +122,7 @@
     <ClInclude Include="DebugMacros.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="ShadersManager.h" />
     <ClInclude Include="SoundTarget.h" />
     <ClInclude Include="StdAfx.h" />
@@ -132,6 +133,12 @@
     <ClInclude Include="VBO.h" />
     <ClInclude Include="ViewPoint.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="REI.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
