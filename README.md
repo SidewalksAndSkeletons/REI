@@ -1,4 +1,4 @@
-![Logo](https://sun9-44.userapi.com/impg/VhtN9osWXLE_-B7QpDTKu3ctcFQBo_x9eYX1Uw/zBjyyfh5z1A.jpg)
+![Logo](Stuff/Logo.png?raw=true)
 
 # REI
 ## Информация
