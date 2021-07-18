@@ -185,8 +185,10 @@ bool CRenderTarget::InitFonts()
     }
 
     // Загружаем шрифты
-    if (!LoadFont("Krapka_36", "DR_Krapka_Square_ExtraBold.otf", 36))
+    /*
+    if (!LoadFont("", "".ttf", 36))
         return false;
+    */
 
     // Загружаем цвета
     LoadColor("White", 255, 255, 255);
