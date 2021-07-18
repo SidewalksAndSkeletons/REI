@@ -1,6 +1,4 @@
-<p align="center">
-![Logo](Stuff/Logo.png?raw=true)
-</p>
+<p align="center"><img src="Stuff/Logo.png"/></p>
 
 # REI
 ## Информация
