@@ -38,10 +38,10 @@ private:
 
 public:
     // *** Загрузить музыку по указанному пути
-    Mix_Music* LoadMusic(const char* Path);
+    bool LoadMusic(const char* Path);
 
     // *** Загрузить звук по указанному пути
-    Mix_Chunk* LoadSound(const char* Path);
+    bool LoadSound(const char* Path);
 
 public:
     // *** Продолжить играть звук (либо же начать играть новый)

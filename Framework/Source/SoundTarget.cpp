@@ -120,12 +120,12 @@ void CSoundTarget::FreeSound(const char* Path)
     Sounds[Path] = nullptr;
 }
 
-Mix_Music* CSoundTarget::LoadMusic(const char* Path)
+bool CSoundTarget::LoadMusic(const char* Path)
 {
     if (!Path)
     {
         DEBUG_WARNING("Empty path!");
-        return nullptr;
+        return false;
     }
 
     // Указываем новый путь
@@ -139,22 +139,20 @@ Mix_Music* CSoundTarget::LoadMusic(const char* Path)
     if (!Music)
     {
         DEBUG_WARNING("Can't load this music track: ", NewPath, Mix_GetError());
-        return nullptr;
+        return false;
     }
 
     // Перемещаем элемент в контейнер
     Musics[Path] = Music;
-
-    // Возвращаем элемент в качестве указателя
-    return Music;
+    return true;
 }
 
-Mix_Chunk* CSoundTarget::LoadSound(const char* Path)
+bool CSoundTarget::LoadSound(const char* Path)
 {
     if (!Path)
     {
         DEBUG_WARNING("Empty path!");
-        return nullptr;
+        return false;
     }
 
     // Указываем новый путь
@@ -168,14 +166,12 @@ Mix_Chunk* CSoundTarget::LoadSound(const char* Path)
     if (!Sound)
     {
         DEBUG_WARNING("Can't load this sound: ", NewPath, Mix_GetError());
-        return nullptr;
+        return false;
     }
 
     // Перемещаем элемент в контейнер
     Sounds[Path] = Sound;
-
-    // Возвращаем элемент в качестве указателя
-    return Sound;
+    return true;
 }
 
 void CSoundTarget::PlaySound(const char* Path, int Loops)
@@ -193,13 +189,11 @@ void CSoundTarget::PlaySound(const char* Path, int Loops)
     if (!Sound)
     {
         // Пробуем его подгрузить
-        Sound = LoadSound(Path);
-
-        if (!Sound)
-        {
-            DEBUG_WARNING("Sound is nullptr!");
+        if (!LoadSound(Path))
             return;
-        }
+
+        // И снова подцепить
+        Sound = Sounds[Path];
     }
 
     // Проигрываем звук в указанном канале N-ное количество раз
@@ -243,13 +237,11 @@ void CSoundTarget::PlayMusic(const char* Path, int Loops)
     if (!Music)
     {
         // Пробуем её загрузить
-        Music = LoadMusic(Path);
-
-        if (!Music)
-        {
-            DEBUG_WARNING("Music is nullptr!");
+        if (!LoadMusic(Path))
             return;
-        }
+
+        // И снова подцепить
+        Music = Musics[Path];
     }
 
     // Проигрываем музыку
