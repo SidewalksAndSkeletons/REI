@@ -1,23 +1,28 @@
 #include "StdAfx.h"
 
-CWindow::CWindow() : SourceWindow(nullptr), DisplayMode {}
-{
-    _w = 0;
-    _h = 0;
-
-    DisplayIndex = 0;
-}
+CWindow::CWindow() : _w(0), _h(0), DisplayIndex(0), SourceWindow(nullptr), DisplayMode {}
+{}
 
 CWindow::~CWindow()
 {
     // Корректно освобождаем память, занятую окном
-    SDL_DestroyWindow(SourceWindow);
+    if (SourceWindow)
+    {
+        SDL_DestroyWindow(SourceWindow);
+    }
 }
 
 bool CWindow::Init()
 {
-    // Устанавливаем размер экрана, равный текущему разрешению
     SDL_DisplayMode* Mode = GetDisplayMode();
+
+    if (!Mode)
+    {
+        DEBUG_ERROR("Window's display mode is nullptr: ", SDL_GetError());
+        return false;
+    }
+
+    // Устанавливаем размер экрана, равный текущему разрешению
     SDL_GetCurrentDisplayMode(GetDisplayIndex(), Mode);
 
     // ...и обновляем данные
