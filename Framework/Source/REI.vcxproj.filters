@@ -107,10 +107,10 @@
     <ClInclude Include="Debug.h">
       <Filter>Source Files\Core\System\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="SystemFunctionsFilesystem.h">
+    <ClInclude Include="FunctionsFilesystem.h">
       <Filter>Source Files\Core\System\Functions</Filter>
     </ClInclude>
-    <ClInclude Include="SystemFunctionsStrings.h">
+    <ClInclude Include="FunctionsStrings.h">
       <Filter>Source Files\Core\System\Functions</Filter>
     </ClInclude>
     <ClInclude Include="DebugMacros.h">

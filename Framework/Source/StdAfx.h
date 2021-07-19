@@ -37,8 +37,8 @@
 
 // *** Framework
 #include "SystemConstants.h"
-#include "SystemFunctionsStrings.h"
-#include "SystemFunctionsFilesystem.h"
+#include "FunctionsStrings.h"
+#include "FunctionsFilesystem.h"
 
 // Исходный код движка
 #include "Debug.h"

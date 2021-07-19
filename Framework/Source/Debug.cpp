@@ -13,7 +13,7 @@ CDebug::~CDebug()
 bool CDebug::Init()
 {
     // Без директорий некуда будет создавать файлы
-    System::FS::CreateDirectories("Logs");
+    FS::CreateDirectories("Logs");
 
     // Создаём лог-файл с указанным названием
     LogFile.open(GetLogName());

@@ -125,7 +125,7 @@ std::string CShadersManager::ReadSource(const std::string_view Path)
     }
 
     // Получаем содержимое файла
-    std::string Buffer = System::FS::ReadFile(File);
+    std::string Buffer = FS::ReadFile(File);
 
     // Закрываем открытый раннее файл
     File.close();
@@ -137,6 +137,7 @@ GLuint CShadersManager::Create(const std::string_view Path, GLenum Type)
 {
     // Выделяем память под шейдер
     GLuint Shader = glCreateShader(Type);
+
     if (!Shader)
     {
         DEBUG_ERROR("Failed to create shader program: Shader == 0!");

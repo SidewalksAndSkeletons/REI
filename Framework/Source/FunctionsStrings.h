@@ -1,8 +1,9 @@
 #pragma once
 
+// *** Функции, предназначенные для работы со строками
 namespace String
 {
-    // *** Конвертировать string в const char**
+    // *** Конвертировать std::string в const char**
     struct ToCPtr final
     {
     private:

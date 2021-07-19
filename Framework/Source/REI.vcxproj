@@ -127,8 +127,8 @@
     <ClInclude Include="SoundTarget.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="SystemConstants.h" />
-    <ClInclude Include="SystemFunctionsFilesystem.h" />
-    <ClInclude Include="SystemFunctionsStrings.h" />
+    <ClInclude Include="FunctionsFilesystem.h" />
+    <ClInclude Include="FunctionsStrings.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="ViewPoint.h" />
