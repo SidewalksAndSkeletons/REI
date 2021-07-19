@@ -105,6 +105,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Kernel.cpp" />
+    <ClCompile Include="KernelEvents.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="SoundTarget.cpp" />

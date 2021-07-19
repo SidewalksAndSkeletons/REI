@@ -96,6 +96,9 @@
     <ClCompile Include="SoundTarget.cpp">
       <Filter>Source Files\Sound\Target</Filter>
     </ClCompile>
+    <ClCompile Include="KernelEvents.cpp">
+      <Filter>Source Files\Core\Kernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kernel.h">
