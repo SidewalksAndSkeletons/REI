@@ -86,7 +86,8 @@ public:
     [[nodiscard]] CTexture* CreateTexture(const std::string_view Path);
 
 public:
-    // *** Отрисовать текст
+    // *** Отрисовать текстуру
+    // [Если не указать размеры, будут использованы размеры исходного изображения/текста]
     void Render(CTexture* Texture, int x, int y, int w = 0, int h = 0);
 };
 

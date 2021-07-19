@@ -1,5 +1,6 @@
 #pragma once
 
+// *** Класс, представляющий собой обёртку для OpenGL-текстуры
 class CTexture final
 {
 private:
@@ -31,11 +32,11 @@ public:
     CTexture(const int& w, const int& h);
     ~CTexture();
 
-    // Разрезать текстуру на кадры
+    // *** Разрезать текстуру на кадры
     void Crope(const int& w, const int& h);
 
 public:
-    // *** Обновить кадр анимации
+    // *** Установить активным кадр анимации с указанными индексом
     void UpdateFrame(const int& FrameIndex);
 
 public:
