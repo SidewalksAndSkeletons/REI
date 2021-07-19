@@ -44,10 +44,10 @@ void CTexture::UpdateFrame(const int& FrameIndex)
         return;
     }
 
-    // Нельзя проиграть кадр с большим индексом, чем содержится в спрайте
-    if (FrameIndex >= (FramesCount * FramesCount))
+    // Нельзя проиграть кадр с индексом меньше нуля или большем, чем количество кадров, содержащихся в анимации
+    if (FrameIndex < 0 || FrameIndex >= (FramesCount * FramesCount))
     {
-        DEBUG_WARNING("Could't play frame with index [", FrameIndex, "], because it >= frames count!");
+        DEBUG_WARNING("Could't play frame with index [", FrameIndex, "], because it < 0 or >= frames count!");
         return;
     }
 
