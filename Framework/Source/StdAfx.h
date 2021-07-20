@@ -50,4 +50,5 @@
 #include "VBO.h"
 #include "RenderTarget.h"
 #include "SoundTarget.h"
+#include "KeyboardManager.h"
 #include "Kernel.h"

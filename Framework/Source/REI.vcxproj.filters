@@ -61,6 +61,12 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7bdfa66c-4ca1-4ad4-8b3a-884c85f297a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Keyboard">
+      <UniqueIdentifier>{629efca0-f02f-43a5-8045-2eb37320a74a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Keyboard\Manager">
+      <UniqueIdentifier>{fe7107ae-086e-4351-9aa1-4ed7cc9acd59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -98,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="KernelEvents.cpp">
       <Filter>Source Files\Core\Kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardManager.cpp">
+      <Filter>Source Files\Core\Keyboard\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardManager.h">
+      <Filter>Source Files\Core\Keyboard\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

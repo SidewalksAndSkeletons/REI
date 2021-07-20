@@ -106,6 +106,7 @@
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="KernelEvents.cpp" />
+    <ClCompile Include="KeyboardManager.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShadersManager.cpp" />
     <ClCompile Include="SoundTarget.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugMacros.h" />
     <ClInclude Include="Kernel.h" />
+    <ClInclude Include="KeyboardManager.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShadersManager.h" />

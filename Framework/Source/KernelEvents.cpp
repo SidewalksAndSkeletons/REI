@@ -12,19 +12,10 @@ void CKernel::HandleEvents()
                 Exit();
             } break;
 
+            case SDL_KEYUP:
             case SDL_KEYDOWN:
             {
-                switch (CurrentEvent.key.keysym.sym)
-                {
-                    case SDLK_ESCAPE:
-                    {
-                        Exit();
-                    } break;
-
-                    default:
-                    {
-                    } break;
-                }
+                KeyboardManager.Set(CurrentEvent.key.keysym.sym, CurrentEvent.key.state);
             } break;
 
             default:

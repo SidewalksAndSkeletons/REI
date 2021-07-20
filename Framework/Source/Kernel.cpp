@@ -35,7 +35,13 @@ bool CKernel::Init()
 }
 
 void CKernel::Update()
-{}
+{
+    // Выход из программы по нажатию кнопки ESC
+    if (KeyboardManager.Get(SDLK_ESCAPE))
+    {
+        Exit();
+    }
+}
 
 void CKernel::Render()
 {
