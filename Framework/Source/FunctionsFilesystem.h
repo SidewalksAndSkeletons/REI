@@ -6,8 +6,7 @@ namespace FS
     // *** Считать содержимое файла в переменную-буфер
     inline std::string ReadFile(std::ifstream& File)
     {
-        std::string Result((std::istreambuf_iterator<char>(File)), std::istreambuf_iterator<char>());
-        return std::move(Result);
+        return std::string(std::istreambuf_iterator<char>(File), std::istreambuf_iterator<char>());
     }
 
     // *** Создать директорию по указанному пути

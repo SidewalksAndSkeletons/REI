@@ -54,7 +54,7 @@ std::string CDebug::GetLogName()
         + "].log"
     );
 
-    return std::move(LogName);
+    return LogName;
 }
 
 void CDebug::SetErrorStatus(const bool Value)

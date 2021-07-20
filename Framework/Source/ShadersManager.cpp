@@ -130,7 +130,7 @@ std::string CShadersManager::ReadSource(const std::string_view Path)
     // Закрываем открытый раннее файл
     File.close();
 
-    return std::move(Buffer);
+    return Buffer;
 }
 
 GLuint CShadersManager::Create(const std::string_view Path, GLenum Type)

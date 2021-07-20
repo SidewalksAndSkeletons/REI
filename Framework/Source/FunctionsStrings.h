@@ -53,7 +53,7 @@ namespace String
         std::string Result = "..//";
         Unite(Result, Input);
 
-        return std::move(Result);
+        return Result;
     }
 
     // *** Запуск с соблюдением иерархии директорий
@@ -66,7 +66,7 @@ namespace String
         std::string Result = "..//";
         Unite(Result, Input);
 
-        return std::move(Result);
+        return Result;
     }
 
     // *** Преобразовать данные в string
