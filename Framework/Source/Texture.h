@@ -29,7 +29,7 @@ private:
     glm::vec4 TexBuffer;
 
 public:
-    CTexture(const int& w, const int& h);
+    CTexture(const GLuint& PreparedID, const int& w, const int& h);
     ~CTexture();
 
     // *** Разрезать текстуру на кадры
@@ -45,7 +45,7 @@ public:
 
 public:
     // *** Получить идентификатор текстуры
-    GLuint& GetID();
+    const GLuint& GetID();
 
 public:
     // *** Получить исходную длину текстуры

@@ -1,7 +1,9 @@
 #include "StdAfx.h"
 
-CTexture::CTexture(const int& w, const int& h) : ID(0), _w(w), _h(h), FramesCount(0), TexCoords(0.0f), TexBuffer(0.0f), UsingCustomTexCoords(false)
+CTexture::CTexture(const GLuint& PreparedID, const int& w, const int& h) : ID(PreparedID), _w(w), _h(h), TexCoords(0.0f), TexBuffer(0.0f)
 {
+    FramesCount = 0;
+    UsingCustomTexCoords = false;
 }
 
 CTexture::~CTexture()
@@ -77,7 +79,7 @@ void CTexture::GetTexCoords(glm::mat4x2& To)
     To = TexCoords;
 }
 
-GLuint& CTexture::GetID()
+const GLuint& CTexture::GetID()
 {
     return ID;
 }

@@ -76,14 +76,14 @@ public:
 
 private:
     // *** Сгенерировать OpenGL-текстуру
-    bool GenerateTexture(CTexture* Texture, SDL_Surface* Surface, const GLuint& Format);
+    GLuint GenerateTexture(SDL_Surface* Surface, const GLuint& Format);
 
 public:
     // *** Создать текстуру, содержащую в себе запечённый текст
     [[nodiscard]] CTexture* CreateTexture(const char* Msg, const char* Font, const char* Color);
 
-    // *** Создать текстуру, содержащую в себе изображение изображение
-    [[nodiscard]] CTexture* CreateTexture(const std::string_view Path);
+    // *** Создать текстуру, содержащую в себе изображение
+    [[nodiscard]] CTexture* CreateTexture(const char* Path);
 
 public:
     // *** Отрисовать текстуру

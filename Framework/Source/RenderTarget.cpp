@@ -302,40 +302,34 @@ void CRenderTarget::LoadColor(const char* Name, Uint8 r, Uint8 g, Uint8 b, Uint8
     Colors.emplace(Name, SDL_Color(r, g, b, a));
 }
 
-bool CRenderTarget::GenerateTexture(CTexture* Texture, SDL_Surface* Surface, const GLuint& Format)
+GLuint CRenderTarget::GenerateTexture(SDL_Surface* Surface, const GLuint& Format)
 {
-    if (!Texture)
-    {
-        DEBUG_ERROR("Texture is nullptr!");
-        return false;
-    }
-
-    // Получаем идентификатор текстуры
-    GLuint* ID = &Texture->GetID();
+    // Подготавливаем идентификатор текстуры
+    GLuint ID = 0;
 
     if (!ID)
     {
-        glGenTextures(1, ID);
+        glGenTextures(1, &ID);
     }
 
     // Не удалось сгенерировать - всё плохо
     if (!ID)
     {
         DEBUG_ERROR("Texture ID is nullptr!");
-        return false;
+        return 0;
     }
 
     // Связываем идентификатор и созданную текстуру
-    glBindTexture(GL_TEXTURE_2D, *ID);
+    glBindTexture(GL_TEXTURE_2D, ID);
 
     // Генерируем 2D-изображение при помощи данные о пикселях поверхности
-    glTexImage2D(GL_TEXTURE_2D, 0, Format, Texture->w(), Texture->h(), 0, Format, GL_UNSIGNED_BYTE, Surface->pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, Format, Surface->w, Surface->h, 0, Format, GL_UNSIGNED_BYTE, Surface->pixels);
 
     // Устанавливаем настройки фильтрации
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-    return true;
+    return ID;
 }
 
 CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const char* Color)
@@ -354,19 +348,19 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
     int h = 0;
     TTF_SizeUTF8(Fonts[Font], Msg, &w, &h);
 
-    // Создаём новую текстуру с указанными размерами
-    CTexture* Texture = new CTexture(w, h);
-
     // Генерируем OpenGL-текстуру на основе данных о поверхности
-    bool Result = GenerateTexture(Texture, Surface, GL_RGBA);
+    GLuint ID = GenerateTexture(Surface, GL_RGBA);
+
+    // Создаём новую текстуру с указанными размерами
+    CTexture* Texture = new CTexture(ID, w, h);
 
     // Освобождаем поверхность
     SDL_FreeSurface(Surface);
 
-    return Result ? Texture : nullptr;
+    return Texture;
 }
 
-CTexture* CRenderTarget::CreateTexture(const std::string_view Path)
+CTexture* CRenderTarget::CreateTexture(const char* Path)
 {
     // Указываем корректный путь
     std::string CorrectPath = "../Textures/";
@@ -384,16 +378,16 @@ CTexture* CRenderTarget::CreateTexture(const std::string_view Path)
     // Устанавливаем формат текстуры
     GLuint Format = (Surface->format->BytesPerPixel == 4) ? GL_RGBA : GL_RGB;
 
-    // Создаём новую текстуру с указанными размерами
-    CTexture* Texture = new CTexture(Surface->w, Surface->h);
-
     // Генерируем OpenGL-текстуру на основе данных о поверхности
-    bool Result = GenerateTexture(Texture, Surface, Format);
+    GLuint ID = GenerateTexture(Surface, Format);
+
+    // Создаём новую текстуру с указанными размерами
+    CTexture* Texture = new CTexture(ID, Surface->w, Surface->h);
 
     // Освобождаем поверхность
     SDL_FreeSurface(Surface);
 
-    return Result ? Texture : nullptr;
+    return Texture;
 }
 
 void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
@@ -424,7 +418,7 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
     // Если есть - используем уникальную
     Texture->GetTexCoords(TMat);
 
-    // Форматируем массив, основываясь на данных текстурного квадрата
+    // Формируем массив, основываясь на данных текстурного квадрата
     GLfloat Vertices[] =
     {
         /*
