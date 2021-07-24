@@ -39,7 +39,7 @@ public:
 
 public:
     // *** Вывести заголовок
-    void PrintTitle(EVENT_TYPES Type, const char* File, int Line, const char* Function);
+    void PrintTitle(EVENT_TYPES Type, const char* File = nullptr, int Line = 0, const char* Function = nullptr);
 
     // *** Вывести сообщение
     template <class T>
