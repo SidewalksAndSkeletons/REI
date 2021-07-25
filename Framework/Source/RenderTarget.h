@@ -85,6 +85,9 @@ public:
     // *** Создать текстуру, содержащую в себе изображение
     [[nodiscard]] CTexture* CreateTexture(const char* Path);
 
+    // *** Создать текстуру-анимацию, основываясь на информации из конфига
+    [[nodiscard]] CTexture* CreateTexture(const char* Section, tinyxml2::XMLElement* Node);
+
 public:
     // *** Отрисовать текстуру
     // [Если не указать размеры, будут использованы размеры исходного изображения/текста]

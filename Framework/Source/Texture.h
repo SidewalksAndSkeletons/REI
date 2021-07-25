@@ -11,12 +11,27 @@ private:
     // Длина текстуры
     int _w;
 
+    // Длина кадра текстуры
+    int _wc;
+
     // Высота текстуры
     int _h;
 
+    // Высота кадра текстуры
+    int _hc;
+
 private:
-    // Количество кадров в анимации (x * x)
+    // Скорость переключения кадров анимации
+    int FramesSpeed;
+
+    // Количество кадров в анимации
     int FramesCount;
+
+    // Текущий кадр анимации
+    int FrameCurrent;
+
+    // Количество времени (процессорных тактов), выделенных под кадр
+    Uint32 FrameTimer;
 
 private:
     // Использование собственной матрицы с текстурными координатами
@@ -32,12 +47,20 @@ public:
     CTexture(const GLuint& PreparedID, const int& w, const int& h);
     ~CTexture();
 
-    // *** Разрезать текстуру на кадры
-    void Crope(const int& w, const int& h);
+    // *** Подгрузить данные об анимации из конфига
+    // [Основная нода уже открытого конфига; секция с данными об анимации]
+    [[nodiscard]] bool InitAnimation(tinyxml2::XMLElement* Node);
 
-public:
+private:
+    // *** Разрезать текстуру на кадры
+    void Crope(const int& w, const int& h, const int& Frames = 0);
+
     // *** Установить активным кадр анимации с указанными индексом
     void UpdateFrame(const int& FrameIndex);
+
+public:
+    // *** Обновление анимации
+    void UpdateAnimation();
 
 public:
     // *** Получить (если есть) уникальную матрицу с текстурными координатами

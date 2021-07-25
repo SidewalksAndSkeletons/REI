@@ -390,6 +390,32 @@ CTexture* CRenderTarget::CreateTexture(const char* Path)
     return Texture;
 }
 
+CTexture* CRenderTarget::CreateTexture(const char* Section, tinyxml2::XMLElement* Node)
+{
+    tinyxml2::XMLElement* Element = Node->FirstChildElement(Section);
+
+    if (!Element)
+    {
+        DEBUG_ERROR("TinyXML2: Config error: element [", Section, "] not found!");
+        return nullptr;
+    }
+
+    // Подгружаем текстуру
+    CTexture* Texture = CreateTexture(GetElementText(Element->FirstChildElement("Texture")).c_str());
+
+    if (!Texture)
+        return nullptr;
+
+    // Подгружаем специфическую информацию об анимации
+    if (!Texture->InitAnimation(Element))
+    {
+        DEBUG_ERROR("Texture animation details was incorrect!");
+        return nullptr;
+    }
+
+    return Texture;
+}
+
 void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
 {
     if (!Texture)
