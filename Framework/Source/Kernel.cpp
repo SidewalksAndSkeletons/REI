@@ -10,8 +10,11 @@ CKernel::~CKernel()
 
 bool CKernel::Init()
 {
+    // Используемые библиотеки
+    Uint32 Flags = SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS;
+
     // Инициализация библиотеки SDL2 и её вспомогательных модулей
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if (SDL_Init(Flags) != 0)
     {
         DEBUG_ERROR("SDL initialization failed: ", SDL_GetError());
         return false;

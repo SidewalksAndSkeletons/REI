@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -99,7 +99,7 @@ typedef struct SDL_FRect
 SDL_FORCE_INLINE SDL_bool SDL_PointInRect(const SDL_Point *p, const SDL_Rect *r)
 {
     return ( (p->x >= r->x) && (p->x < (r->x + r->w)) &&
-             (p->y >= r->y) && (p->y < (r->y + r->h)) ) ? SDL_bool::SDL_TRUE : SDL_bool::SDL_FALSE;
+             (p->y >= r->y) && (p->y < (r->y + r->h)) ) ? SDL_TRUE : SDL_FALSE;
 }
 
 /**
@@ -107,7 +107,7 @@ SDL_FORCE_INLINE SDL_bool SDL_PointInRect(const SDL_Point *p, const SDL_Rect *r)
  */
 SDL_FORCE_INLINE SDL_bool SDL_RectEmpty(const SDL_Rect *r)
 {
-    return ((!r) || (r->w <= 0) || (r->h <= 0)) ? SDL_bool::SDL_TRUE : SDL_bool::SDL_FALSE;
+    return ((!r) || (r->w <= 0) || (r->h <= 0)) ? SDL_TRUE : SDL_FALSE;
 }
 
 /**
@@ -116,7 +116,7 @@ SDL_FORCE_INLINE SDL_bool SDL_RectEmpty(const SDL_Rect *r)
 SDL_FORCE_INLINE SDL_bool SDL_RectEquals(const SDL_Rect *a, const SDL_Rect *b)
 {
     return (a && b && (a->x == b->x) && (a->y == b->y) &&
-            (a->w == b->w) && (a->h == b->h)) ? SDL_bool::SDL_TRUE : SDL_bool::SDL_FALSE;
+            (a->w == b->w) && (a->h == b->h)) ? SDL_TRUE : SDL_FALSE;
 }
 
 /**
