@@ -52,6 +52,9 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7bdfa66c-4ca1-4ad4-8b3a-884c85f297a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Gameplay">
+      <UniqueIdentifier>{1377f69c-cf70-4e8b-8b26-e0b82b077743}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Core\Functions">
       <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
     </Filter>
@@ -66,6 +69,15 @@
     </Filter>
     <Filter Include="Source Files\Graphics\Shaders\Manager">
       <UniqueIdentifier>{27e832c2-0e21-40e9-8e81-28bd9c00a0e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay\Objects">
+      <UniqueIdentifier>{7cacd2da-c66c-4a79-9523-c575b9553945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay\Objects\GameObject">
+      <UniqueIdentifier>{752a91c4-702d-4a63-b20d-f43f34a9e13f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay\Objects\Interfaces">
+      <UniqueIdentifier>{d7f83077-1695-49fa-ba9b-5651b516ee90}</UniqueIdentifier>
     </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{aeaf0d8d-560a-4c9c-9ff7-a63f080bd6c3}</UniqueIdentifier>
@@ -113,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="KeyboardManager.cpp">
       <Filter>Source Files\Core\Keyboard\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Gameplay\Objects\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="..\SDK\TinyXML2\include\TinyXML2.cpp">
       <Filter>SDK\TinyXML2</Filter>
@@ -166,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="KeyboardManager.h">
       <Filter>Source Files\Core\Keyboard\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameObject.h">
+      <Filter>Source Files\Gameplay\Objects\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Gameplay\Objects\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2.h">
       <Filter>SDK\TinyXML2</Filter>

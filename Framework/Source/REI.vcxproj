@@ -108,6 +108,7 @@
     </ClCompile>
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Kernel.cpp" />
     <ClCompile Include="KernelEvents.cpp" />
     <ClCompile Include="KeyboardManager.cpp" />
@@ -128,6 +129,8 @@
     <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2_Additional.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugMacros.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="IGameObject.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="KeyboardManager.h" />
     <ClInclude Include="RenderTarget.h" />

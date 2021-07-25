@@ -55,4 +55,5 @@
 #include "RenderTarget.h"
 #include "SoundTarget.h"
 #include "KeyboardManager.h"
+#include "GameObject.h"
 #include "Kernel.h"
