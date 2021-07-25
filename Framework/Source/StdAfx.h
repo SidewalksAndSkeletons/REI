@@ -31,9 +31,9 @@
 #include <SDL_ttf.h>
 
 // *** OpenGL
-#include "GL/glew.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // *** Framework
 #include "SystemConstants.h"

@@ -16,12 +16,6 @@
     <Filter Include="Source Files\Core\System\StdAfx">
       <UniqueIdentifier>{190f89d7-7461-45a6-bec9-9a9922a4d1a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Core\System\Debug">
-      <UniqueIdentifier>{6412af99-021c-47cf-9131-353926e50354}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Core\System\Functions">
-      <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{fe9b687e-e172-40f4-9f00-7a7bb38fe98e}</UniqueIdentifier>
     </Filter>
@@ -33,9 +27,6 @@
     </Filter>
     <Filter Include="Source Files\Graphics\Shaders">
       <UniqueIdentifier>{700014b7-5c5a-49e5-a113-53463740e2e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics\Shaders\ShadersManager">
-      <UniqueIdentifier>{27e832c2-0e21-40e9-8e81-28bd9c00a0e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics\Texture">
       <UniqueIdentifier>{37c75f48-f3e2-4eba-bb7a-ef41bf2aaecb}</UniqueIdentifier>
@@ -61,11 +52,20 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7bdfa66c-4ca1-4ad4-8b3a-884c85f297a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Functions">
+      <UniqueIdentifier>{7b0eab6c-2ced-4ac9-adae-e420f4364e99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Debug">
+      <UniqueIdentifier>{6412af99-021c-47cf-9131-353926e50354}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Core\Keyboard">
       <UniqueIdentifier>{629efca0-f02f-43a5-8045-2eb37320a74a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Core\Keyboard\Manager">
       <UniqueIdentifier>{fe7107ae-086e-4351-9aa1-4ed7cc9acd59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Shaders\Manager">
+      <UniqueIdentifier>{27e832c2-0e21-40e9-8e81-28bd9c00a0e3}</UniqueIdentifier>
     </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{aeaf0d8d-560a-4c9c-9ff7-a63f080bd6c3}</UniqueIdentifier>
@@ -85,13 +85,13 @@
       <Filter>Source Files\Core\System\StdAfx</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>Source Files\Core\System\Debug</Filter>
+      <Filter>Source Files\Core\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Graphics\Window</Filter>
     </ClCompile>
     <ClCompile Include="ShadersManager.cpp">
-      <Filter>Source Files\Graphics\Shaders\ShadersManager</Filter>
+      <Filter>Source Files\Graphics\Shaders\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphics\Texture</Filter>
@@ -126,16 +126,16 @@
       <Filter>Source Files\Core\System\StdAfx</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>Source Files\Core\System\Debug</Filter>
+      <Filter>Source Files\Core\Debug</Filter>
     </ClInclude>
     <ClInclude Include="FunctionsFilesystem.h">
-      <Filter>Source Files\Core\System\Functions</Filter>
+      <Filter>Source Files\Core\Functions</Filter>
     </ClInclude>
     <ClInclude Include="FunctionsStrings.h">
-      <Filter>Source Files\Core\System\Functions</Filter>
+      <Filter>Source Files\Core\Functions</Filter>
     </ClInclude>
     <ClInclude Include="DebugMacros.h">
-      <Filter>Source Files\Core\System\Debug</Filter>
+      <Filter>Source Files\Core\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Source Files\Graphics\Window</Filter>
@@ -144,7 +144,7 @@
       <Filter>Source Files\Core\System\Constants</Filter>
     </ClInclude>
     <ClInclude Include="ShadersManager.h">
-      <Filter>Source Files\Graphics\Shaders\ShadersManager</Filter>
+      <Filter>Source Files\Graphics\Shaders\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Source Files\Graphics\Texture</Filter>
