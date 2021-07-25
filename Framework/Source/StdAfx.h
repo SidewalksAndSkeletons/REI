@@ -40,6 +40,10 @@
 #include "FunctionsStrings.h"
 #include "FunctionsFilesystem.h"
 
+// *** TinyXML2
+#include <TinyXML2.h>
+#include <TinyXML2_Additional.h>
+
 // Исходный код движка
 #include "Debug.h"
 #include "DebugMacros.h"

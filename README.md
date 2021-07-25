@@ -20,4 +20,4 @@
 Авторам используемых библиотек (см. файлы Read-me)
 
 # Использованные библиотеки
-## [SDL2](https://www.libsdl.org/download-2.0.php) | [OpenGL](https://www.opengl.org/) | [GLM](https://www.opengl.org/sdk/libs/GLM/)
+## [SDL2](https://www.libsdl.org/download-2.0.php) | [OpenGL](https://www.opengl.org/) | [GLM](https://www.opengl.org/sdk/libs/GLM/) | [TinyXML2](https://github.com/leethomason/tinyxml2)

@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Core\Keyboard\Manager">
       <UniqueIdentifier>{fe7107ae-086e-4351-9aa1-4ed7cc9acd59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{aeaf0d8d-560a-4c9c-9ff7-a63f080bd6c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\TinyXML2">
+      <UniqueIdentifier>{7a86c163-e019-454a-b709-1c3f84eeba76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EntryPoint.cpp">
@@ -107,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="KeyboardManager.cpp">
       <Filter>Source Files\Core\Keyboard\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SDK\TinyXML2\include\TinyXML2.cpp">
+      <Filter>SDK\TinyXML2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="KeyboardManager.h">
       <Filter>Source Files\Core\Keyboard\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2.h">
+      <Filter>SDK\TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2_Additional.h">
+      <Filter>SDK\TinyXML2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -64,7 +64,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>..\SDK\SDL2\include\;..\SDK\glew\include\;..\SDK\glm\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDK\SDL2\include\;..\SDK\glew\include\;..\SDK\glm\;..\SDK\TinyXML2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
@@ -86,7 +86,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>..\SDK\SDL2\include\;..\SDK\glew\include\;..\SDK\glm\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SDK\SDL2\include\;..\SDK\glew\include\;..\SDK\glm\;..\SDK\TinyXML2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
@@ -102,6 +102,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\SDK\TinyXML2\include\TinyXML2.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../../../Source/StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../../Source/StdAfx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Kernel.cpp" />
@@ -120,6 +124,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2.h" />
+    <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2_Additional.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugMacros.h" />
     <ClInclude Include="Kernel.h" />
