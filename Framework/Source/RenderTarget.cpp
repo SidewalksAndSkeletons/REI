@@ -7,15 +7,6 @@ static GLuint Indices[] =
     2, 3, 0
 };
 
-// Ортографическая матрица проекции
-static glm::mat4 OrthoMatrix =
-{
-    0.0f,    0.0f,     0.0f,    0.0f,
-    0.0f,    0.0f,     0.0f,    0.0f,
-    0.0f,    0.0f,     0.0f,    0.0f,
-   -1.0f,    1.0f,    -1.0f,    1.0f
-};
-
 // Стандартная TexCoord-матрица для отрисовки единого спрайта
 static glm::mat4x2 TexCoordsMatrix =
 {
@@ -25,51 +16,50 @@ static glm::mat4x2 TexCoordsMatrix =
     0.0f, 1.0f
 };
 
-CRenderTarget::CRenderTarget() : Context {}, VAO(0), EBO(0)
-{}
+CRenderTarget::CRenderTarget() : Context{}, VBO{}, Window{}, ShadersManager{}
+{
+    VAO = 0;
+    EBO = 0;
+}
 
 CRenderTarget::~CRenderTarget()
 {
-    // Освобождаем память, занятую вертексными массивами VAO
     if (VAO)
     {
         glDeleteVertexArrays(1, &VAO);
     }
 
-    // Освобождаем память, занятую буферами EBO
     if (EBO)
     {
         glDeleteBuffers(1, &EBO);
     }
 
-    // Освобождаем память, занятую OpenGL-контекстом
     SDL_GL_DeleteContext(Context);
 
-    // Очищаем память, занятую шрифтами
     for (auto& Iter : Fonts)
     {
         TTF_CloseFont(Iter.second);
     }
 
     Fonts.clear();
-
     Colors.clear();
 
-    // Корректно выходим из библиотек
     TTF_Quit();
     IMG_Quit();
 }
 
 bool CRenderTarget::Init()
 {
-    // Настройка окна
-    if (!Window.Init())
+    Window = Window->CreateInstance();
+
+    // Инициализация окна
+    if (!Window->Init())
     {
         DEBUG_ERROR("Window initialization failed!");
         return false;
     }
 
-    // Настройка OpenGL
+    // Инициализация OpenGL
     if (!InitOpenGL())
     {
         DEBUG_ERROR("OpenGL initialization failed!");
@@ -83,15 +73,17 @@ bool CRenderTarget::Init()
         return false;
     }
 
+    ShadersManager = ShadersManager->CreateInstance();
+
     // Инициализация шейдеров
-    if (!ShadersManager.Init())
+    if (!ShadersManager->Init())
     {
         DEBUG_ERROR("Shaders manager initialization failed!");
         return false;
     }
 
-    // Устанавливаем поле зрение камеры
-    GL_SetViewPoint();
+    // Настраиваем поле зрения камеры
+    SetViewPoint();
 
     return true;
 }
@@ -99,7 +91,7 @@ bool CRenderTarget::Init()
 bool CRenderTarget::InitOpenGL()
 {
     // Создаём OpenGL-контекст
-    Context = SDL_GL_CreateContext(Window.Get());
+    Window->CreateContext(Context);
 
     // Включаем вертикальную синхронизацию
     if (SDL_GL_SetSwapInterval(SDL_ENABLE))
@@ -129,7 +121,7 @@ bool CRenderTarget::InitOpenGL()
         return false;
     }
 
-    // Инициализация GL3
+    // Инициализируем GL3
     if (!InitGL3())
     {
         DEBUG_ERROR("OpenGL: initialization failed: ", SDL_GetError());
@@ -155,14 +147,16 @@ bool CRenderTarget::InitGL3()
         return false;
     }
 
+    VBO = VBO->CreateInstance();
+
     // Инициализируем VBO
-    if (!VBO.Init())
+    if (!VBO->Init())
     {
         DEBUG_ERROR("VBO initialization failed!");
         return false;
     }
 
-    // Инициализация EBO
+    // Инициализируем EBO
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
@@ -185,10 +179,6 @@ bool CRenderTarget::InitFonts()
     }
 
     // Загружаем шрифты
-    /*
-    if (!LoadFont("", "".ttf", 36))
-        return false;
-    */
 
     // Загружаем цвета
     LoadColor("White", 255, 255, 255);
@@ -206,86 +196,51 @@ void CRenderTarget::RenderFirstPhase()
 
 void CRenderTarget::RenderSecondPhase()
 {
-    FlushBuffers();
+    // Работаем с VBO
+    VBO->FlushBuffers();
 
     // Обновляем картинку на экране
-    SDL_GL_SwapWindow(Window.Get());
+    Window->Swap();
 }
 
-void CRenderTarget::FlushBuffers()
-{
-    // Используем стандартную шейдерную программу
-    ShadersManager.Use("Default");
-
-    // Работаем с VBO
-    VBO.FlushBuffers();
-}
-
-void CRenderTarget::GL_GetViewPointScale(int* w, int* h)
-{
-    double s = fmin(
-        Window.w() / static_cast<double>(Window.GetViewPoint().w()),
-        Window.h() / static_cast<double>(Window.GetViewPoint().h())
-    );
-
-    *w = static_cast<int>(Window.GetViewPoint().w() * s);
-    *h = static_cast<int>(Window.GetViewPoint().h() * s);
-}
-
-void CRenderTarget::GL_SetViewPoint()
+void CRenderTarget::SetViewPoint()
 {
     int x = 0;
     int y = 0;
-    int w = Window.w();
-    int h = Window.h();
+    int w = 0;
+    int h = 0;
 
-    GL_GetViewPointScale(&w, &h);
-
-    // Центрируем точку обзора
-    x = Window.w() / 2 - w / 2;
-    y = Window.h() / 2 - h / 2;
-
+    // Обновляем значение поля зрения
+    Window->GetViewPoint(x, y, w, h);
     glViewport(x, y, w, h);
 
-    // Обновляем значение ортографической матрицы проекции
-    OrthoMatrix[0][0] = 2.0f / Window.GetViewPoint().w();
-    OrthoMatrix[1][1] = -2.0f / Window.GetViewPoint().h();
+    // Используем Projection-матрицу
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
-    GL_ApplyProjection();
+    // Настраиваем проекционную матрицу
+    Window->GetProjection(w, h);
+    glm::mat4 Projection = glm::ortho(0.0f, static_cast<GLfloat>(w), static_cast<GLfloat>(h), 0.0f, -1.0f, 1.0f);
+
+    // Передаём матрицу в шейдеры
+    ShadersManager->SendProjectionMatrix(Projection);
 }
 
-void CRenderTarget::GL_ApplyProjection()
+bool CRenderTarget::LoadFont(std::string_view Name, std::string_view Path, int Size)
 {
-    // Используем стандартную шейдерную программу
-    ShadersManager.Use("Default");
-
-    // Передаём матрицу проекции в активный шейдер
-    ShadersManager.SetMatrix4(ShadersManager.Get("Default"), "u_mvpMatrix", OrthoMatrix);
-
-    // Используем шейдер для отрисовки текста
-    ShadersManager.Use("Text");
-
-    // Передаём матрицу проекции в активный шейдер
-    ShadersManager.SetMatrix4(ShadersManager.Get("Text"), "u_mvpMatrix", OrthoMatrix);
-}
-
-bool CRenderTarget::LoadFont(const char* Name, const std::string_view Path, int Size)
-{
-    // Если нечего загружать
-    if (!Name || Path.empty())
+    if (Name.empty() || Path.empty())
     {
         DEBUG_ERROR("Font details was empty!");
         return false;
     }
 
-    // Указываем корректный путь относительно папки Fonts
+    // Указываем корректный путь согласно иерархии приложения
     std::string NewPath = "Fonts/";
     String::Unite(NewPath, Path);
 
-    // Пробужем проинициализировать шрифт
+    // Пробужем загрузить шрифт
     TTF_Font* Font = TTF_OpenFont(String::GetPath(NewPath).c_str(), Size);
 
-    // Если не удалось подгрузить - выводим сообщение об ошибке
     if (!Font)
     {
         DEBUG_ERROR("Can't load this font: ", Name);
@@ -296,15 +251,14 @@ bool CRenderTarget::LoadFont(const char* Name, const std::string_view Path, int 
     return true;
 }
 
-void CRenderTarget::LoadColor(const char* Name, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void CRenderTarget::LoadColor(std::string_view Name, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     // Собираем из исходный данных новый цвет
     Colors.emplace(Name, SDL_Color(r, g, b, a));
 }
 
-GLuint CRenderTarget::GenerateTexture(SDL_Surface* Surface, const GLuint& Format)
+GLuint CRenderTarget::GenerateTexture(SDL_Surface* Surface, GLuint Format)
 {
-    // Подготавливаем идентификатор текстуры
     GLuint ID = 0;
 
     if (!ID)
@@ -332,7 +286,7 @@ GLuint CRenderTarget::GenerateTexture(SDL_Surface* Surface, const GLuint& Format
     return ID;
 }
 
-CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const char* Color)
+CTexture* CRenderTarget::CreateTexture(const char* Msg, const std::string& Font, const std::string& Color)
 {
     // Запекаем изображение в поверхность
     SDL_Surface* Surface = TTF_RenderUTF8_Blended(Fonts[Font], Msg, Colors[Color]);
@@ -360,14 +314,14 @@ CTexture* CRenderTarget::CreateTexture(const char* Msg, const char* Font, const 
     return Texture;
 }
 
-CTexture* CRenderTarget::CreateTexture(const char* Path)
+CTexture* CRenderTarget::CreateTexture(std::string_view Path)
 {
-    // Указываем корректный путь
-    std::string CorrectPath = "../Textures/";
+    // Указываем корректный путь согласно иерархии приложения
+    std::string CorrectPath = "Textures/";
     String::Unite(CorrectPath, Path);
 
-    // Подгружаем поверхность по новому пути
-    SDL_Surface* Surface = IMG_Load(CorrectPath.c_str());
+    // Загружаем изображение по указанному пути
+    SDL_Surface* Surface = IMG_Load(String::GetPath(CorrectPath).c_str());
 
     if (!Surface)
     {
@@ -390,9 +344,9 @@ CTexture* CRenderTarget::CreateTexture(const char* Path)
     return Texture;
 }
 
-CTexture* CRenderTarget::CreateTexture(const char* Section, tinyxml2::XMLElement* Node)
+CTexture* CRenderTarget::CreateTexture(std::string_view Section, tinyxml2::XMLElement* Node)
 {
-    tinyxml2::XMLElement* Element = Node->FirstChildElement(Section);
+    tinyxml2::XMLElement* Element = Node->FirstChildElement(Section.data());
 
     if (!Element)
     {
@@ -401,7 +355,7 @@ CTexture* CRenderTarget::CreateTexture(const char* Section, tinyxml2::XMLElement
     }
 
     // Подгружаем текстуру
-    CTexture* Texture = CreateTexture(GetElementText(Element->FirstChildElement("Texture")).c_str());
+    CTexture* Texture = CreateTexture(GetElementText(Element->FirstChildElement("Texture")));
 
     if (!Texture)
         return nullptr;
@@ -416,7 +370,7 @@ CTexture* CRenderTarget::CreateTexture(const char* Section, tinyxml2::XMLElement
     return Texture;
 }
 
-void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
+void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h, bool FlipX, bool FlipY, GLfloat Angle)
 {
     if (!Texture)
     {
@@ -426,17 +380,43 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
 
     // На данный момент текстуры ещё не находятся в буферах, поэтому нам нужно
     // очиситить все буферы для того, чтобы текстуры отрисовывались в корректной последовательности
-    FlushBuffers();
+    VBO->FlushBuffers();
 
     // Устанавливаем корректные размеры текстур
     w = (w > 0) ? w : Texture->w();
     h = (h > 0) ? h : Texture->h();
+
+    // Развороты по осям
+    if (FlipX)
+    {
+        x += w;
+        w = -w;
+    }
+
+    if (FlipY)
+    {
+        y += h;
+        h = -h;
+    }
 
     // Настраиваем координаты вершин
     glm::vec2 v1 = { static_cast<GLfloat>(x),                static_cast<GLfloat>(y) };
     glm::vec2 v2 = { static_cast<GLfloat>(x + w),            static_cast<GLfloat>(y) };
     glm::vec2 v3 = { static_cast<GLfloat>(x + w),            static_cast<GLfloat>(y + h) };
     glm::vec2 v4 = { static_cast<GLfloat>(x),                static_cast<GLfloat>(y + h) };
+
+    // Если используется вращение
+    if (Angle > 1.0f)
+    {
+        // Получаем точку, относительно которой требуется производить вращение
+        glm::vec2 Rotate = OpenGL::GetCenter(x, y, w, h);
+
+        // Вращаем вертексы под указанным углом
+        OpenGL::Rotate(v1, Angle, Rotate);
+        OpenGL::Rotate(v2, Angle, Rotate);
+        OpenGL::Rotate(v3, Angle, Rotate);
+        OpenGL::Rotate(v4, Angle, Rotate);
+    }
 
     // Используемая матрица с текстурными координатами
     glm::mat4x2& TMat = TexCoordsMatrix;
@@ -458,7 +438,7 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h)
     };
 
     // Используем шейдер для отрисовки текста
-    ShadersManager.Use("Text");
+    ShadersManager->Use(Texture->GetShader());
 
     // Связываем активную текстуру с идентификатором
     glBindTexture(GL_TEXTURE_2D, Texture->GetID());

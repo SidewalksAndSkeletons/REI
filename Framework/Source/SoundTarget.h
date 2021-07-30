@@ -1,24 +1,26 @@
 #pragma once
 
 // *** Класс, обеспечивающий работу со аудио-картой
-class CSoundTarget final
+class CSoundTarget final : public ISingleton<CSoundTarget>
 {
 private:
     // Контейнер со всеми загруженными аудио-треками
-    std::unordered_map<const char*, Mix_Music*> Musics;
+    std::unordered_map<std::string, Mix_Music*> Musics;
 
     // Контейнер со всеми загруженными звуками
-    std::unordered_map<const char*, Mix_Chunk*> Sounds;
+    std::unordered_map<std::string, Mix_Chunk*> Sounds;
 
 private:
     // Название последней игравшей музыки
-    const char* LastMusic;
+    std::string LastMusic;
 
     // Название последнего игравшего звука
-    const char* LastSound;
+    std::string LastSound;
 
 public:
-    CSoundTarget();
+    CSoundTarget() = default;
+    CSoundTarget(const CSoundTarget&) = delete;
+    CSoundTarget& operator=(const CSoundTarget&) = delete;
     ~CSoundTarget();
 
     [[nodiscard]] bool Init();
@@ -28,25 +30,25 @@ private:
     void FreeMusic(Mix_Music* Music);
 
     // *** Освободить память, занятую музыкой (через его название)
-    void FreeMusic(const char* Path);
+    void FreeMusic(const std::string& Path);
 
     // *** Освободить память, занятую звуком
     void FreeSound(Mix_Chunk* Sound);
 
     // *** Освободить память, занятую звуком (через его название)
-    void FreeSound(const char* Path);
+    void FreeSound(const std::string& Path);
 
 public:
     // *** Загрузить музыку по указанному пути
-    bool LoadMusic(const char* Path);
+    bool LoadMusic(const std::string& Path);
 
     // *** Загрузить звук по указанному пути
-    bool LoadSound(const char* Path);
+    bool LoadSound(const std::string& Path);
 
 public:
     // *** Продолжить играть звук (либо же начать играть новый)
     // [Путь до звука; число повторов]
-    void PlaySound(const char* Path = nullptr, int Loops = 0);
+    void PlaySound(const std::string& Path = "", int Loops = 0);
 
     // *** Поставить звуки на паузу
     void PauseSounds();
@@ -57,7 +59,7 @@ public:
 public:
     // *** Продолжить играть музыку (либо начать новый)
     // [Путь до звука; количество циклов]
-    void PlayMusic(const char* Path = nullptr, int Loops = -1);
+    void PlayMusic(const std::string& Path = "", int Loops = -1);
 
     // *** Поставить музыку на паузу
     void PauseMusic();
@@ -66,4 +68,4 @@ public:
     void StopMusic();
 };
 
-inline CSoundTarget SoundTarget;
+inline std::shared_ptr<CSoundTarget> SoundTarget = nullptr;

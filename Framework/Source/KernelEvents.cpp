@@ -15,7 +15,7 @@ void CKernel::HandleEvents()
             case SDL_KEYUP:
             case SDL_KEYDOWN:
             {
-                KeyboardManager.Set(CurrentEvent.key.keysym.sym, CurrentEvent.key.state);
+                KeyboardManager->Set(CurrentEvent.key.keysym.sym, CurrentEvent.key.state);
             } break;
 
             default:

@@ -1,9 +1,5 @@
 #include "StdAfx.h"
 
-CSoundTarget::CSoundTarget() : LastMusic(nullptr), LastSound(nullptr)
-{
-}
-
 CSoundTarget::~CSoundTarget()
 {
     for (auto& It : Musics)
@@ -20,23 +16,22 @@ CSoundTarget::~CSoundTarget()
 
     Sounds.clear();
 
-    // Выход из библиотеки
+    // Освобождаем память, занятую библиотекой
     Mix_Quit();
 }
 
 bool CSoundTarget::Init()
 {
-    // Используем именное пространство, содержащее константы для корректного 
-    // взаимодействия с аудио-картой устройства
     using namespace SOUND_DETAILS;
 
-    // Инициализируем библиотеку для работы с аудио
+    // Будем поддерживать формат .ogg
     if (!Mix_Init(MIX_INIT_OGG))
     {
         DEBUG_ERROR("SDL error: ", Mix_GetError());
         return false;
     }
 
+    // Инициализируем библиотеку для работы с аудио
     if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS_COUNT, AUDIO_CHUNKSIZE))
     {
         DEBUG_ERROR("SDL error: ", Mix_GetError());
@@ -61,24 +56,21 @@ void CSoundTarget::FreeMusic(Mix_Music* Music)
         // Прекращаем проигрывать музыку
         StopMusic();
 
-        // Зачищаем название
-        LastMusic = nullptr;
+        LastMusic.clear();
     }
 
-    // Освобождаем память, занятую музыкой
     Mix_FreeMusic(Music);
     Music = nullptr;
 }
 
-void CSoundTarget::FreeMusic(const char* Path)
+void CSoundTarget::FreeMusic(const std::string& Path)
 {
-    if (!Path)
+    if (Path.empty())
     {
         DEBUG_WARNING("Empty path!");
         return;
     }
 
-    // Освобождаем память из-под трека
     FreeMusic(Musics[Path]);
     Musics[Path] = nullptr;
 }
@@ -98,156 +90,144 @@ void CSoundTarget::FreeSound(Mix_Chunk* Sound)
         // Прекращаем проигрывать звук в канале
         StopSounds();
 
-        // Зачищаем название
-        LastSound = nullptr;
+        LastSound.clear();
     }
 
-    // Корректно освобождаем память, занятую звуком
     Mix_FreeChunk(Sound);
     Sound = nullptr;
 }
 
-void CSoundTarget::FreeSound(const char* Path)
+void CSoundTarget::FreeSound(const std::string& Path)
 {
-    if (!Path)
+    if (Path.empty())
     {
         DEBUG_WARNING("Empty path!");
         return;
     }
 
-    // Освобождаем память из-под звука
     FreeSound(Sounds[Path]);
     Sounds[Path] = nullptr;
 }
 
-bool CSoundTarget::LoadMusic(const char* Path)
+bool CSoundTarget::LoadMusic(const std::string& Path)
 {
-    if (!Path)
+    if (Path.empty())
     {
         DEBUG_WARNING("Empty path!");
         return false;
     }
 
-    // Указываем новый путь
-    std::string NewPath = "../Sounds/Music/";
+    // Указываем корректный путь, согласно иерархии приложения
+    std::string NewPath = "Sounds/Music/";
     String::Unite(NewPath, Path, SOUND_DETAILS::AUDIO_FILE_TYPE);
 
-    // Пробуем проинициализировать музыку
-    Mix_Music* Music = Mix_LoadMUS(NewPath.c_str());
+    // Пробуем загрузить аудио-файл
+    Mix_Music* Music = Mix_LoadMUS(String::GetPath(NewPath).c_str());
 
-    // Не удалось проинициализировать звук
     if (!Music)
     {
         DEBUG_WARNING("Can't load this music track: ", NewPath, Mix_GetError());
         return false;
     }
 
-    // Перемещаем элемент в контейнер
     Musics[Path] = Music;
     return true;
 }
 
-bool CSoundTarget::LoadSound(const char* Path)
+bool CSoundTarget::LoadSound(const std::string& Path)
 {
-    if (!Path)
+    if (Path.empty())
     {
         DEBUG_WARNING("Empty path!");
         return false;
     }
 
-    // Указываем новый путь
-    std::string NewPath = "../Sounds/";
+    // Указываем корректный путь, согласно иерархии приложения
+    std::string NewPath = "Sounds/";
     String::Unite(NewPath, Path, SOUND_DETAILS::AUDIO_FILE_TYPE);
 
-    // Пробуем проинициализировать звук
-    Mix_Chunk* Sound = Mix_LoadWAV(NewPath.c_str());
+    // Пробуем загрузить звук
+    Mix_Chunk* Sound = Mix_LoadWAV(String::GetPath(NewPath).c_str());
 
-    // Не удалось проинициализировать звук
     if (!Sound)
     {
         DEBUG_WARNING("Can't load this sound: ", NewPath, Mix_GetError());
         return false;
     }
 
-    // Перемещаем элемент в контейнер
     Sounds[Path] = Sound;
     return true;
 }
 
-void CSoundTarget::PlaySound(const char* Path, int Loops)
+void CSoundTarget::PlaySound(const std::string& Path, int Loops)
 {
-    if (!Path)
+    if (Path.empty())
     {
         DEBUG_WARNING("Empty path!");
         return;
     }
 
-    // Пробуем получить звук из хранилища
     Mix_Chunk* Sound = Sounds[Path];
 
-    // Если звук не найден -
+    // Если звук не найден - пытаемся его загрузить
     if (!Sound)
     {
-        // Пробуем его подгрузить
         if (!LoadSound(Path))
             return;
 
-        // И снова подцепить
         Sound = Sounds[Path];
     }
 
     // Проигрываем звук в указанном канале N-ное количество раз
     Mix_PlayChannel(SOUND_DETAILS::AUDIO_CHANNEL, Sound, Loops);
 
-    // Перезаписываем название текущего звука
+    // Обновляем имя последнего проигранного звука
     LastSound = Path;
 }
 
 void CSoundTarget::PauseSounds()
 {
-    // Приостанавливаем работу аудио-канала
     Mix_Pause(SOUND_DETAILS::AUDIO_CHANNEL);
 }
 
 void CSoundTarget::StopSounds()
 {
-    // Прерываем работу аудио-канала
     Mix_HaltChannel(SOUND_DETAILS::AUDIO_CHANNEL);
 }
 
-void CSoundTarget::PlayMusic(const char* Path, int Loops)
+void CSoundTarget::PlayMusic(const std::string& Path, int Loops)
 {
-    // Если путь не указан
-    if (!Path)
+    Mix_Music* Music = nullptr;
+
+    if (Path.empty())
     {
-        if (!LastMusic)
+        if (LastMusic.empty())
         {
             DEBUG_WARNING("Last music track is nullptr!");
             return;
         }
 
-        // Но есть старый трек - играем его
-        Path = LastMusic;
+        // Если путь не указан, но есть старый трек - играем его
+        Music = Musics[LastMusic];
     }
-
-    // Получаем указатель на трек в контейнере
-    Mix_Music* Music = Musics[Path];
-
-    // Если музыка не получена, значит
-    if (!Music)
+    else
     {
-        // Пробуем её загрузить
-        if (!LoadMusic(Path))
-            return;
-
-        // И снова подцепить
         Music = Musics[Path];
     }
 
-    // Проигрываем музыку
+    // Если музыка не найдена - пробуем её загрузить
+    if (!Music)
+    {
+        if (!LoadMusic(Path))
+            return;
+
+        Music = Musics[Path];
+    }
+
+    // Проигрываем музыку n-ное количество раз
     Mix_PlayMusic(Music, Loops);
 
-    // Перезаписываем текущую музыку
+    // Обновляем имя последнего проигранного трека
     LastMusic = Path;
 }
 

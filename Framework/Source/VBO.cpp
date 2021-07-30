@@ -1,7 +1,11 @@
 #include "StdAfx.h"
 
-CVertexBufferObject::CVertexBufferObject() : Data(nullptr), CurrentData(nullptr), DataIndex(0), Buffer(0), Size(0)
-{}
+CVertexBufferObject::CVertexBufferObject() : Data{}, CurrentData{}
+{
+    DataIndex = 0;
+    Buffer = 0;
+    Size = 0;
+}
 
 CVertexBufferObject::~CVertexBufferObject()
 {

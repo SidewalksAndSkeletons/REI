@@ -1,17 +1,17 @@
 #pragma once
 
 // *** Класс, обеспечивающий работу с видеокартой
-class CRenderTarget final
+class CRenderTarget final : public ISingleton<CRenderTarget>
 {
 private:
     // Текущее окно
-    CWindow Window;
+    std::shared_ptr<CWindow> Window;
+
+    // Модуль, обеспечивающий работу с шейдерами
+    std::shared_ptr<CShadersManager> ShadersManager;
 
     // OpenGL-контекст, обеспечивающий отрисовку
     SDL_GLContext Context;
-
-    // Модуль, обеспечивающий работу с шейдерами
-    CShadersManager ShadersManager;
 
 private:
     // Vertex array object
@@ -21,17 +21,19 @@ private:
     GLuint EBO;
 
     // Вертекстный буфер, применяемый при отрисовке
-    CVertexBufferObject VBO;
+    std::shared_ptr<CVertexBufferObject> VBO;
 
 private:
     // Хранилище, содержащее все загруженные шрифты
-    std::unordered_map<const char*, TTF_Font*> Fonts;
+    std::unordered_map<std::string, TTF_Font*> Fonts;
 
     // Хранилище, содержащее доступные цвета
-    std::unordered_map<const char*, SDL_Color> Colors;
+    std::unordered_map<std::string, SDL_Color> Colors;
 
 public:
     CRenderTarget();
+    CRenderTarget(const CRenderTarget&) = delete;
+    CRenderTarget& operator=(const CRenderTarget&) = delete;
     ~CRenderTarget();
 
     [[nodiscard]] bool Init();
@@ -54,44 +56,34 @@ public:
     void RenderSecondPhase();
 
 private:
-    // *** Отрисовка вертекстных буферов и их сброс
-    void FlushBuffers();
-
-private:
-    // *** Получить масштабирование поля зрения камеры
-    void GL_GetViewPointScale(int* w, int* h);
-
     // *** Актуализировать значение поля зрения камеры
-    void GL_SetViewPoint();
-
-    // *** Передать матрицы проеции в шейдеры
-    void GL_ApplyProjection();
+    void SetViewPoint();
 
 public:
     // *** Загрузить шрифт
-    bool LoadFont(const char* Name, const std::string_view Path, int Size);
+    bool LoadFont(std::string_view Name, std::string_view Path, int Size);
 
     // *** Добавить новый цвет в коллекцию
-    void LoadColor(const char* Name, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
+    void LoadColor(std::string_view Name, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
 
 private:
     // *** Сгенерировать OpenGL-текстуру
-    GLuint GenerateTexture(SDL_Surface* Surface, const GLuint& Format);
+    GLuint GenerateTexture(SDL_Surface* Surface, GLuint Format);
 
 public:
     // *** Создать текстуру, содержащую в себе запечённый текст
-    [[nodiscard]] CTexture* CreateTexture(const char* Msg, const char* Font, const char* Color);
+    [[nodiscard]] CTexture* CreateTexture(const char* Msg, const std::string& Font, const std::string& Color);
 
     // *** Создать текстуру, содержащую в себе изображение
-    [[nodiscard]] CTexture* CreateTexture(const char* Path);
+    [[nodiscard]] CTexture* CreateTexture(std::string_view Path);
 
     // *** Создать текстуру-анимацию, основываясь на информации из конфига
-    [[nodiscard]] CTexture* CreateTexture(const char* Section, tinyxml2::XMLElement* Node);
+    [[nodiscard]] CTexture* CreateTexture(std::string_view Section, tinyxml2::XMLElement* Node);
 
 public:
     // *** Отрисовать текстуру
     // [Если не указать размеры, будут использованы размеры исходного изображения/текста]
-    void Render(CTexture* Texture, int x, int y, int w = 0, int h = 0);
+    void Render(CTexture* Texture, int x, int y, int w = 0, int h = 0, bool FlipX = false, bool FlipY = false, GLfloat Angle = 0.0f);
 };
 
-inline CRenderTarget RenderTarget;
+inline std::shared_ptr<CRenderTarget> RenderTarget = nullptr;

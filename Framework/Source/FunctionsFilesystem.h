@@ -12,6 +12,6 @@ namespace FS
     // *** Создать директорию по указанному пути
     inline void CreateDirectories(const std::string_view Path)
     {
-        std::filesystem::create_directory(String::GetPath(Path).c_str());
+        std::filesystem::create_directory(String::GetPath(Path));
     }
 }

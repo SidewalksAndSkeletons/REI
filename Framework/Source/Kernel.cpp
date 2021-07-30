@@ -1,16 +1,20 @@
 #include "StdAfx.h"
 
-CKernel::CKernel() : RunningStatus(false), CurrentEvent {}
-{}
+CKernel::CKernel() : CurrentEvent{}
+{
+    RunningStatus = false;
+
+    RenderTarget = RenderTarget->CreateInstance();
+    SoundTarget = SoundTarget->CreateInstance();
+}
 
 CKernel::~CKernel()
 {
-    Keys.clear();
+    SDL_Quit();
 }
 
 bool CKernel::Init()
 {
-    // Используемые библиотеки
     Uint32 Flags = SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS;
 
     // Инициализация библиотеки SDL2 и её вспомогательных модулей
@@ -21,18 +25,30 @@ bool CKernel::Init()
     }
 
     // Инициализация рендера
-    if (!RenderTarget.Init())
+    if (!RenderTarget->Init())
     {
         DEBUG_ERROR("RenderTarget initialization failed!");
         return false;
     }
 
     // Инициализация обработчика звуков
-    if (!SoundTarget.Init())
+    if (!SoundTarget->Init())
     {
         DEBUG_ERROR("SoundTarget initialization failed!");
         return false;
     }
+
+    // Инициализация обработчика ввода
+    KeyboardManager = KeyboardManager->CreateInstance();
+
+    if (!Actor.Init())
+    {
+        DEBUG_ERROR("Actor initialization failed!");
+        return false;
+    }
+
+    // Запускаем работу движка
+    RunningStatus = true;
 
     return true;
 }
@@ -40,17 +56,21 @@ bool CKernel::Init()
 void CKernel::Update()
 {
     // Выход из программы по нажатию кнопки ESC
-    if (KeyboardManager.Get(SDLK_ESCAPE))
+    if (KeyboardManager->Get(SDLK_ESCAPE))
     {
         Exit();
     }
+
+    Actor.Update();
 }
 
 void CKernel::Render()
 {
-    RenderTarget.RenderFirstPhase();
+    RenderTarget->RenderFirstPhase();
 
-    RenderTarget.RenderSecondPhase();
+    Actor.Render();
+
+    RenderTarget->RenderSecondPhase();
 }
 
 void CKernel::Exit()
@@ -64,10 +84,8 @@ void CKernel::ParseKeys(int KeysCount, char** SourceKeys)
     if (KeysCount < 1)
         return;
 
-    // Перебираем ключи и их значения
     for (size_t CurrentKey = 0; CurrentKey < static_cast<size_t>(KeysCount); ++CurrentKey)
     {
-        // Добавляем их в хранилище
         Keys.push_back(SourceKeys[CurrentKey]);
     }
 }
@@ -77,12 +95,7 @@ bool CKernel::GetRunningStatus() const
     return RunningStatus;
 }
 
-void CKernel::SetRunningStatus(const bool Value)
-{
-    RunningStatus = Value;
-}
-
-bool CKernel::FindKey(const char* Key)
+bool CKernel::FindKey(std::string_view Key)
 {
     return std::find(Keys.cbegin(), Keys.cend(), Key) != Keys.end();
 }

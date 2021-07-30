@@ -1,7 +1,7 @@
 #pragma once
 
 // *** Менеджер, обеспечивающий работу с клавиатурой
-class CKeyboardManager final
+class CKeyboardManager final : public ISingleton<CKeyboardManager>
 {
 private:
     // Контейнер, содержащий состояния нажатых клавиш
@@ -9,14 +9,16 @@ private:
 
 public:
     CKeyboardManager() = default;
+    CKeyboardManager(const CKeyboardManager&) = delete;
+    CKeyboardManager& operator=(const CKeyboardManager&) = delete;
     ~CKeyboardManager() = default;
 
 public:
     // *** Установить статус активации клавиши
-    void Set(const SDL_Keycode& Key, const Uint8& State);
+    void Set(SDL_Keycode Key, Uint8 State);
 
     // *** Получить статус активации клавиши
-    bool Get(const SDL_Keycode& Key);
+    bool Get(SDL_Keycode Key);
 };
 
-inline CKeyboardManager KeyboardManager;
+inline std::shared_ptr<CKeyboardManager> KeyboardManager = nullptr;

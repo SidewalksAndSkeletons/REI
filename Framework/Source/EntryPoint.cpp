@@ -27,40 +27,38 @@ int main(int KeysCount, char** Keys)
         return static_cast<int>(ERROR_CODE);
     };
 
+    Debug = Debug->CreateInstance();
+
     // Инициализируем отладочный модуль
-    if (!Debug.Init())
+    if (!Debug->Init())
     {
         return GetErrorCode(EXIT_TYPE::DEBUG_ERROR);
     }
 
-    // Создаём ядро
-    CKernel Kernel;
+    std::shared_ptr<CKernel> Kernel = Kernel->CreateInstance();
 
     // Инициализируем ядро движка
-    if (!Kernel.Init())
+    if (!Kernel->Init())
     {
         return GetErrorCode(EXIT_TYPE::INIT_ERROR);
     }
 
     // Обрабатываем ключи
-    Kernel.ParseKeys(KeysCount, Keys);
-
-    // Запускаем приложение
-    Kernel.SetRunningStatus(true);
+    Kernel->ParseKeys(KeysCount, Keys);
 
     // Запускаем игровой цикл
-    while (Kernel.GetRunningStatus() && !Debug.GetErrorStatus())
+    while (Kernel->GetRunningStatus() && !Debug->GetErrorStatus())
     {
         // Отрисовка объектов
-        Kernel.Render();
+        Kernel->Render();
 
         // Обработка SDL-событий
-        Kernel.HandleEvents();
+        Kernel->HandleEvents();
 
         // Обновление логики
-        Kernel.Update();
+        Kernel->Update();
     }
 
     // Определяем наличие ошибки во время выполнения
-    return GetErrorCode(Debug.GetErrorStatus() ? EXIT_TYPE::RUNTIME_ERROR : EXIT_TYPE::SUCCESS);
+    return GetErrorCode(Debug->GetErrorStatus() ? EXIT_TYPE::RUNTIME_ERROR : EXIT_TYPE::SUCCESS);
 }

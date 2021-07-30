@@ -1,7 +1,7 @@
 #version 330 core
 
 // Ортографическая матрица проекции
-uniform mat4 u_mvpMatrix;
+uniform mat4 ProjectionMatrix;
 
 // Входные данные
 in vec4 InputPosition;  // Позиция
@@ -16,8 +16,9 @@ void main()
 {
 	// Отправляем цвет и позицию в фрагментный шейдер
     Color = InputColor;
+	
     TexCoord = InputTexCoord;
 	
 	// Трансформируем вершинную позицию, используя матрицу проекции
-    gl_Position = u_mvpMatrix * InputPosition;
+    gl_Position = ProjectionMatrix * InputPosition;
 }

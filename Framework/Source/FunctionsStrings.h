@@ -10,7 +10,7 @@ namespace String
         const char* Source;
 
     public:
-        ToCPtr(const std::string& Input) : Source(Input.c_str()) {}
+        ToCPtr(std::string_view Input) : Source(Input.data()) {}
 
         operator const char** ()
         {
@@ -44,23 +44,9 @@ namespace String
     }
 
     // *** Запуск с соблюдением иерархии директорий
-    inline std::string GetPath(const std::string_view Input)
+    inline std::string GetPath(std::string_view Input)
     {
-        // Если ввод пуст - возвращаем пустую строку
         if (Input.empty())
-            return std::string();
-
-        std::string Result = "..//";
-        Unite(Result, Input);
-
-        return Result;
-    }
-
-    // *** Запуск с соблюдением иерархии директорий
-    inline std::string GetPath(const char* Input)
-    {
-        // Если ввод пуст - возвращаем пустую строку
-        if (!Input)
             return std::string();
 
         std::string Result = "..//";

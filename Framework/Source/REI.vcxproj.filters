@@ -40,9 +40,6 @@
     <Filter Include="Source Files\Graphics\Render\Target">
       <UniqueIdentifier>{2a99d679-53c3-4213-addf-94618b508342}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\ViewPoint">
-      <UniqueIdentifier>{d3bd2399-d707-4e3f-af14-d312e4af240c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{a7785379-b47f-4952-a86c-3a6c79a8b9d5}</UniqueIdentifier>
     </Filter>
@@ -76,14 +73,17 @@
     <Filter Include="Source Files\Gameplay\Objects\GameObject">
       <UniqueIdentifier>{752a91c4-702d-4a63-b20d-f43f34a9e13f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Gameplay\Objects\Interfaces">
-      <UniqueIdentifier>{d7f83077-1695-49fa-ba9b-5651b516ee90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SDK">
       <UniqueIdentifier>{aeaf0d8d-560a-4c9c-9ff7-a63f080bd6c3}</UniqueIdentifier>
     </Filter>
     <Filter Include="SDK\TinyXML2">
       <UniqueIdentifier>{7a86c163-e019-454a-b709-1c3f84eeba76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Types">
+      <UniqueIdentifier>{550b3d95-6809-4fc1-8088-e24aa58712c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interfaces">
+      <UniqueIdentifier>{d7f83077-1695-49fa-ba9b-5651b516ee90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +113,6 @@
     </ClCompile>
     <ClCompile Include="VBO.cpp">
       <Filter>Source Files\Graphics\Render\VBO</Filter>
-    </ClCompile>
-    <ClCompile Include="ViewPoint.cpp">
-      <Filter>Source Files\Graphics\ViewPoint</Filter>
     </ClCompile>
     <ClCompile Include="SoundTarget.cpp">
       <Filter>Source Files\Sound\Target</Filter>
@@ -170,9 +167,6 @@
     <ClInclude Include="VBO.h">
       <Filter>Source Files\Graphics\Render\VBO</Filter>
     </ClInclude>
-    <ClInclude Include="ViewPoint.h">
-      <Filter>Source Files\Graphics\ViewPoint</Filter>
-    </ClInclude>
     <ClInclude Include="SoundTarget.h">
       <Filter>Source Files\Sound\Target</Filter>
     </ClInclude>
@@ -183,7 +177,7 @@
       <Filter>Source Files\Core\Keyboard\Manager</Filter>
     </ClInclude>
     <ClInclude Include="IGameObject.h">
-      <Filter>Source Files\Gameplay\Objects\Interfaces</Filter>
+      <Filter>Source Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Source Files\Gameplay\Objects\GameObject</Filter>
@@ -193,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2_Additional.h">
       <Filter>SDK\TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionsOpenGL.h">
+      <Filter>Source Files\Core\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Source Files\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="ISingleton.h">
+      <Filter>Source Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

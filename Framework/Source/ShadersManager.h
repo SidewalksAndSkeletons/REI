@@ -1,38 +1,40 @@
 #pragma once
 
 // *** Класс, предназначенный для работы с шейдерами
-class CShadersManager final
+class CShadersManager final : public ISingleton<CShadersManager>
 {
 private:
     // Контейнер, содержащий в себе скомпилированные шейдеры
-    std::unordered_map<const char*, GLuint> Shaders;
+    std::unordered_map<std::string, GLuint> Shaders;
 
 public:
     CShadersManager() = default;
+    CShadersManager(const CShadersManager&) = delete;
+    CShadersManager& operator=(const CShadersManager&) = delete;
     ~CShadersManager();
 
     [[nodiscard]] bool Init();
 
 public:
     // *** Использовать шейдер с указанным именем
-    void Use(const char* Name);
+    void Use(const std::string& Name);
 
     // *** Получить шейдер по имени
-    GLuint Get(const char* Name);
+    GLuint Get(const std::string& Name);
 
 private:
     // *** Создать новый шейдер
-    bool CreateShader(const char* Name);
+    bool CreateShader(const std::string& Name);
 
 private:
     // *** Считать исходный код шейдера из файла
-    std::string ReadSource(const std::string_view Path);
+    std::string ReadSource(const std::string& Path);
 
     // *** Создать новый шейдер
-    GLuint Create(const std::string_view Path, GLenum Type);
+    GLuint Create(const std::string& Path, GLenum Type);
 
     // *** Скомпилировать исходный код шейдера по указанному пути
-    bool Compile(const GLuint& ShaderID, const std::string_view Path);
+    bool Compile(const GLuint& ShaderID, const std::string& Path);
 
     // *** Слинковать шейдер
     bool Link(const GLuint& ShaderID);
@@ -47,6 +49,10 @@ private:
 private:
     // *** Получить uniform по его имени
     GLint GetUniformLocation(const GLuint& ShaderID, const char* Name);
+
+public:
+    // *** Отправить проекционную матрицу в шейдеры
+    void SendProjectionMatrix(const glm::mat4& Matrix);
 
 public:
     // *** Установить значение matrix-uniform по его имени

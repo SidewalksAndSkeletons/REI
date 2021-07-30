@@ -1,7 +1,7 @@
 #pragma once
 
 // *** Класс, представляющий собой буфер, применяемый при отрисовке объектов
-class CVertexBufferObject final
+class CVertexBufferObject final : public ISingleton<CVertexBufferObject>
 {
 private:
     // Указатель на данные VBO
@@ -21,6 +21,8 @@ private:
 
 public:
     CVertexBufferObject();
+    CVertexBufferObject(const CVertexBufferObject&) = delete;
+    CVertexBufferObject& operator=(const CVertexBufferObject&) = delete;
     ~CVertexBufferObject();
 
     [[nodiscard]] bool Init();

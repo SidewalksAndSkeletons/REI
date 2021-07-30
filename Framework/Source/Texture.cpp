@@ -1,13 +1,12 @@
 #include "StdAfx.h"
 
-CTexture::CTexture(const GLuint& PreparedID, const int& w, const int& h) : ID(PreparedID), _w(w), _h(h), TexCoords(0.0f), TexBuffer(0.0f)
+CTexture::CTexture(GLuint PreparedID, int w, int h) : Size{ w, h }, ID{ PreparedID },
+    Rows{}, FrameSize{}, TexCoords(0.0f), TexBuffer(0.0f)
 {
-    _wc = 0;
-    _hc = 0;
-
+    Shader = "Default";
     FramesCount = 0;
     FrameCurrent = 0;
-    FramesSpeed = 0;
+    FrameSpeed = 0;
     FrameTimer = 0;
 
     UsingCustomTexCoords = false;
@@ -15,7 +14,6 @@ CTexture::CTexture(const GLuint& PreparedID, const int& w, const int& h) : ID(Pr
 
 CTexture::~CTexture()
 {
-    // Освобождаем память, занятую под текстуру
     if (ID)
     {
         glDeleteTextures(1, &ID);
@@ -24,11 +22,17 @@ CTexture::~CTexture()
 
 bool CTexture::InitAnimation(tinyxml2::XMLElement* Node)
 {
+    if (FrameSpeed)
+    {
+        DEBUG_WARNING("Texture animation already initialized!");
+        return true;
+    }
+
     if (!Node)
         return false;
 
     // Устанавливаем скорость анимации
-    if (!GetValue(Node->FirstChildElement("Speed"), FramesSpeed))
+    if (!GetValue(Node->FirstChildElement("Speed"), FrameSpeed))
         return false;
 
     // Получаем количество кадров в листе
@@ -48,27 +52,43 @@ bool CTexture::InitAnimation(tinyxml2::XMLElement* Node)
 
     // Кадрируем текстуру
     Crope(w, h, Buffer);
+
+    // Получаем название шейдера
+    std::string ShaderName = GetElementText(Node->FirstChildElement("Shader"));
+
+    if (ShaderName.empty())
+    {
+        DEBUG_WARNING("Shader type not defined, used default!");
+    }
+    else
+    {
+        Shader = ShaderName;
+    }
+
     return true;
 }
 
-void CTexture::Crope(const int& w, const int& h, const int& Frames)
+void CTexture::Crope(int w, int h, int Frames)
 {
     // Устанавливаем размеры одного кадра
-    _wc = w;
-    _hc = h;
+    FrameSize = { w, h };
+
+    // Обновляем размеры анимационного листа
+    Rows.x = static_cast<int>(ceil(static_cast<GLfloat>(Size.w) / FrameSize.w));
+    Rows.y = static_cast<int>(ceil(static_cast<GLfloat>(Size.h) / FrameSize.h));
 
     // Обновляем количество кадров в анимации
-    FramesCount = (Frames > 1) ? Frames : (_w / _wc) * (_w / _hc);
+    FramesCount = (Frames > 1) ? Frames : Rows.x * Rows.y;
 
     // Сбрасываем текущую позицию
     TexBuffer.x = 0.0f;
     TexBuffer.y = 0.0f;
 
     // Обновляем длину кадра
-    TexBuffer.z = 1.0f / _w * static_cast<GLfloat>(_wc);
+    TexBuffer.z = static_cast<GLfloat>(FrameSize.w) / Size.w;
 
     // Обновляем ширину кадра
-    TexBuffer.w = 1.0f / _h * static_cast<GLfloat>(_hc);
+    TexBuffer.w = static_cast<GLfloat>(FrameSize.h) / Size.h;
 
     // Теперь мы можем использовать анимацию
     UsingCustomTexCoords = true;
@@ -77,7 +97,7 @@ void CTexture::Crope(const int& w, const int& h, const int& Frames)
     UpdateFrame(0);
 }
 
-void CTexture::UpdateFrame(const int& FrameIndex)
+void CTexture::UpdateFrame(int FrameIndex)
 {
     // Работать с анимациями мы можем только при условии проинициализированного TexCoords
     if (!UsingCustomTexCoords)
@@ -94,9 +114,10 @@ void CTexture::UpdateFrame(const int& FrameIndex)
     }
 
     // Подготавливаем буфер для отрисовки указанного кадра
-    TexBuffer.x = (FrameIndex % (_w / _wc)) * TexBuffer.z;
-    TexBuffer.y = (FrameIndex / ((_h / _hc) + 1)) * TexBuffer.w;
+    TexBuffer.x = (FrameIndex % Rows.x) * TexBuffer.z;
+    TexBuffer.y = (FrameIndex / (Rows.y + 1)) * TexBuffer.w;
 
+    // Настраиваем матрицу текстурных координат
     TexCoords[0][0] = TexBuffer.x;
     TexCoords[0][1] = TexBuffer.y;
 
@@ -119,7 +140,7 @@ void CTexture::UpdateAnimation()
 
     if (Ticks >= FrameTimer)
     {
-        FrameTimer = Ticks + FramesSpeed;
+        FrameTimer = Ticks + FrameSpeed;
 
         ++FrameCurrent;
 
@@ -149,11 +170,16 @@ const GLuint& CTexture::GetID()
 const int& CTexture::w()
 {
     // Если текстура кадрирована - используем длину кадра
-    return _wc ? _wc : _w;
+    return FrameSize.w ? FrameSize.w : Size.w;
 }
 
 const int& CTexture::h()
 {
     // Если текстура кадрирована - используем высоту кадра
-    return _hc ? _hc : _h;
+    return FrameSize.h ? FrameSize.h : Size.h;
+}
+
+const std::string& CTexture::GetShader()
+{
+    return Shader;
 }

@@ -1,18 +1,14 @@
 #pragma once
 
 // *** Класс-обёртка для SDL_Window*
-class CWindow final
+class CWindow final : public ISingleton<CWindow>
 {
 private:
-    // Поле зрения камеры
-    CViewPoint ViewPoint;
+    // Размеры обозреваемой области
+    SRect<int> ViewPoint;
 
-private:
-    // Длина окна
-    int _w;
-
-    // Высота окна
-    int _h;
+    // Размеры окна
+    SRect<int> Size;
 
 private:
     // Индекс текущего дисплея
@@ -20,20 +16,18 @@ private:
 
 private:
     // Указатель на сырое окно
-    SDL_Window* SourceWindow;
+    SDL_Window* Source;
 
     // Структура текущего дисплея
     SDL_DisplayMode DisplayMode;
 
 public:
     CWindow();
+    CWindow(const CWindow&) = delete;
+    CWindow& operator=(const CWindow&) = delete;
     ~CWindow();
 
     [[nodiscard]] bool Init();
-
-public:
-    // *** Получить указатель на сырое окно
-    SDL_Window* Get();
 
 public:
     // *** Получить данные о текущем дисплее
@@ -44,13 +38,16 @@ public:
     int GetDisplayIndex() const;
 
 public:
-    // *** Получить поле зрения
-    CViewPoint& GetViewPoint();
+    // *** Получить размеры области отрисовки
+    void GetViewPoint(int& x, int& y, int& w, int& h);
+
+    // *** Получить данные для проекционной матрицы
+    void GetProjection(int& w, int& h);
 
 public:
-    // *** Получить длину окна
-    const int& w();
+    // *** Обновить картинку на экране
+    void Swap();
 
-    // *** Получить высоту окна
-    const int& h();
+    // *** Создать OpenGL-контекст в текущем окне
+    void CreateContext(SDL_GLContext& Context);
 };

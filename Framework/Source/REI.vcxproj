@@ -121,7 +121,6 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VBO.cpp" />
-    <ClCompile Include="ViewPoint.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,10 +128,13 @@
     <ClInclude Include="..\SDK\TinyXML2\include\TinyXML2_Additional.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugMacros.h" />
+    <ClInclude Include="FunctionsOpenGL.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IGameObject.h" />
+    <ClInclude Include="ISingleton.h" />
     <ClInclude Include="Kernel.h" />
     <ClInclude Include="KeyboardManager.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShadersManager.h" />
@@ -143,7 +145,6 @@
     <ClInclude Include="FunctionsStrings.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VBO.h" />
-    <ClInclude Include="ViewPoint.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

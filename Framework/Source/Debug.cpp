@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 
-CDebug::CDebug() : ErrorStatus(false) {}
+CDebug::CDebug()
+{
+    ErrorStatus = false;
+}
 
 CDebug::~CDebug()
 {
@@ -118,5 +121,19 @@ void CDebug::PrintTitle(EVENT_TYPES Type, const char* File, int Line, const char
     Result += "DESCR: \t";
 
     // Печатаем титульник сообщения
-    PrintMessage(Result.c_str());
+    PrintMessage(Result);
+
+    // Если произошла ошибка
+    if (Type == EVENT_TYPES::ERROR)
+    {
+        // Если ошибка не была обнаружена раннее - подготавливаем всё к закрытию
+        if (!GetErrorStatus())
+        {
+            // При следующей итерации начинаем выход из программы
+            SetErrorStatus(true);
+
+            // Выводим окно с сообщением об ошибке
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", "For details check log-file", nullptr);
+        }
+    }
 }

@@ -1,34 +1,34 @@
 #pragma once
 
 // *** Класс, представляющий собой обёртку для OpenGL-текстуры
-class CTexture final
+class CTexture final 
 {
+private:
+    // Имя шейдера
+    std::string Shader;
+
 private:
     // Идентификатор текстуры
     GLuint ID;
 
 private:
-    // Длина текстуры
-    int _w;
-
-    // Длина кадра текстуры
-    int _wc;
-
-    // Высота текстуры
-    int _h;
-
-    // Высота кадра текстуры
-    int _hc;
-
-private:
     // Скорость переключения кадров анимации
-    int FramesSpeed;
+    int FrameSpeed;
 
     // Количество кадров в анимации
     int FramesCount;
 
     // Текущий кадр анимации
     int FrameCurrent;
+
+    // Размеры кадра w * h
+    SRect<int> FrameSize;
+
+    // Оригинальные размеры текстуры
+    SRect<int> Size;
+
+    // Размеры анимационного листа x * y
+    TRect<int> Rows;
 
     // Количество времени (процессорных тактов), выделенных под кадр
     Uint32 FrameTimer;
@@ -44,7 +44,7 @@ private:
     glm::vec4 TexBuffer;
 
 public:
-    CTexture(const GLuint& PreparedID, const int& w, const int& h);
+    CTexture(GLuint PreparedID, int w, int h);
     ~CTexture();
 
     // *** Подгрузить данные об анимации из конфига
@@ -53,10 +53,10 @@ public:
 
 private:
     // *** Разрезать текстуру на кадры
-    void Crope(const int& w, const int& h, const int& Frames = 0);
+    void Crope(int w, int h, int Frames = 0);
 
     // *** Установить активным кадр анимации с указанными индексом
-    void UpdateFrame(const int& FrameIndex);
+    void UpdateFrame(int FrameIndex);
 
 public:
     // *** Обновление анимации
@@ -71,9 +71,13 @@ public:
     const GLuint& GetID();
 
 public:
-    // *** Получить исходную длину текстуры
+    // *** Получить актуальную длину текстуры
     const int& w();
 
-    // *** Получить исходную высоту текстуры
+    // *** Получить актуальную ширину текстуры
     const int& h();
+
+public:
+    // *** Получить название использующегося шейдера
+    const std::string& GetShader();
 };

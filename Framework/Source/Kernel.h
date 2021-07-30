@@ -1,11 +1,11 @@
 #pragma once
 
 // *** Класс, представляющий собой ядро движка
-class CKernel final
+class CKernel final : public ISingleton<CKernel>
 {
 private:
     // Ключи, указанные при запуске
-    std::vector<const char*> Keys;
+    std::vector<std::string> Keys;
 
 private:
     // Структура текущего SDL-события
@@ -17,6 +17,8 @@ private:
 
 public:
     CKernel();
+    CKernel(const CKernel&) = delete;
+    CKernel& operator=(const CKernel&) = delete;
     ~CKernel();
 
     [[nodiscard]] bool Init();
@@ -39,14 +41,11 @@ public:
     // *** Получить статус работы приложения
     bool GetRunningStatus() const;
 
-    // *** Установить статус работы приложения
-    void SetRunningStatus(const bool Value);
-
 public:
     // *** Перебрать ключи, указанные при запуске программы
     // [Количество ключей; массив строк]
     void ParseKeys(int KeysCount, char** SourceKeys);
 
     // *** Был ли указан ключ при запуске?
-    bool FindKey(const char* Key);
+    bool FindKey(std::string_view Key);
 };

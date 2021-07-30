@@ -1,15 +1,13 @@
 #include "StdAfx.h"
 
-CWindow::CWindow() : _w(0), _h(0), DisplayIndex(0), SourceWindow(nullptr), DisplayMode {}
-{}
+CWindow::CWindow() : ViewPoint{}, Size{}, Source{}, DisplayMode{}
+{
+    DisplayIndex = 0;
+}
 
 CWindow::~CWindow()
 {
-    // Корректно освобождаем память, занятую окном
-    if (SourceWindow)
-    {
-        SDL_DestroyWindow(SourceWindow);
-    }
+    SDL_DestroyWindow(Source);
 }
 
 bool CWindow::Init()
@@ -26,9 +24,8 @@ bool CWindow::Init()
     SDL_GetCurrentDisplayMode(GetDisplayIndex(), Mode);
 
     // ...и обновляем данные
-    _w = Mode->w;
-    _h = Mode->h;
-    ViewPoint.Set(_w, _h);
+    Size.set(Mode->w, Mode->h);
+    ViewPoint.set(Mode->w, Mode->h);
 
     Uint32 Flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
@@ -39,20 +36,15 @@ bool CWindow::Init()
 #endif
 
     // Пробуем проинициализировать окно
-    SourceWindow = SDL_CreateWindow(WINDOW_DETAILS::ENGINE_TITLE, 0, 0, _w, _h, Flags);
+    Source = SDL_CreateWindow(WINDOW_DETAILS::ENGINE_TITLE, 0, 0, Size.w, Size.h, Flags);
 
-    if (!SourceWindow)
+    if (!Source)
     {
         DEBUG_ERROR("SDL error: ", SDL_GetError());
         return false;
     }
 
     return true;
-}
-
-SDL_Window* CWindow::Get()
-{
-    return SourceWindow;
 }
 
 SDL_DisplayMode* CWindow::GetDisplayMode()
@@ -65,17 +57,38 @@ int CWindow::GetDisplayIndex() const
     return DisplayIndex;
 }
 
-CViewPoint& CWindow::GetViewPoint()
+void CWindow::GetViewPoint(int& x, int& y, int& w, int& h)
 {
-    return ViewPoint;
+    // Коэффициент масштабирования
+    double s = fmin
+    (
+        Size.w / static_cast<double>(ViewPoint.w),
+        Size.h / static_cast<double>(ViewPoint.h)
+    );
+
+    // Применяем коэффициент
+    int sw = static_cast<int>(ViewPoint.w * s);
+    int sh = static_cast<int>(ViewPoint.h * s);
+
+    // Высчитываем координаты точки обзора
+    x = Size.w / 2 - sw / 2;
+    y = Size.h / 2 - sh / 2;
+    w = Size.w;
+    h = Size.h;
 }
 
-const int& CWindow::w()
+void CWindow::GetProjection(int& w, int& h)
 {
-    return _w;
+    w = Size.w;
+    h = Size.h;
 }
 
-const int& CWindow::h()
+void CWindow::Swap()
 {
-    return _h;
+    SDL_GL_SwapWindow(Source);
+}
+
+void CWindow::CreateContext(SDL_GLContext& Context)
+{
+    Context = SDL_GL_CreateContext(Source);
 }

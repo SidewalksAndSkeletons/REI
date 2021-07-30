@@ -1,7 +1,7 @@
 #pragma once
 
 // *** Класс, обеспечивающий работу с отладкой
-class CDebug final
+class CDebug final : public ISingleton<CDebug>
 {
 public:
     // Типы событий в логе
@@ -68,4 +68,4 @@ public:
 #endif
 };
 
-inline CDebug Debug;
+inline std::shared_ptr<CDebug> Debug = nullptr;

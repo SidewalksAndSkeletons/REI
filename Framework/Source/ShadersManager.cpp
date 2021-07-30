@@ -2,7 +2,6 @@
 
 CShadersManager::~CShadersManager()
 {
-    // Освобождаем память, занятую шейдерами
     for (auto& It : Shaders)
     {
         glDeleteProgram(It.second);
@@ -13,21 +12,18 @@ CShadersManager::~CShadersManager()
 
 bool CShadersManager::Init()
 {
-    // Создаём стандартный шейдер, подходящий под большинство
-    // поверхностей
-    if (!CreateShader("Default"))
+    if (!CreateShader(std::string("Default")))
         return false;
 
-    // Создаём специализированный шейдер для текста
-    if (!CreateShader("Text"))
+    if (!CreateShader(std::string("Text")))
+
         return false;
 
     return true;
 }
 
-bool CShadersManager::CreateShader(const char* Name)
+bool CShadersManager::CreateShader(const std::string& Name)
 {
-    // Пробуем создать новую шейдерную программу
     GLuint CurrentProgram = glCreateProgram();
 
     if (!CurrentProgram)
@@ -67,7 +63,6 @@ bool CShadersManager::CreateShader(const char* Name)
     // Настройка выходного значения для фрагментного шейдера
     glBindFragDataLocation(CurrentProgram, 0, "OutputColor");
 
-    // Link the shader program
     if (!Link(CurrentProgram))
     {
         DEBUG_ERROR("Linking was failed!");
@@ -93,49 +88,42 @@ bool CShadersManager::CreateShader(const char* Name)
     glDeleteShader(VertexShader);
     glDeleteShader(FragmentShader);
 
-    // Помещаем собранную шейдерную программу в контейнер
     Shaders.emplace(Name, CurrentProgram);
     return true;
 }
 
-void CShadersManager::Use(const char* Name)
+void CShadersManager::Use(const std::string& Name)
 {
-    if (Shaders.empty())
-        return;
-
     if (Shaders.find(Name) == Shaders.end())
         return;
 
     glUseProgram(Shaders[Name]);
 }
 
-std::string CShadersManager::ReadSource(const std::string_view Path)
+std::string CShadersManager::ReadSource(const std::string& Path)
 {
-    // Подготавливаем новый путь
-    std::string NewPath = "../Shaders/";
+    // Указываем корректный путь согласно иерархии приложения
+    std::string NewPath = "Shaders/";
     String::Unite(NewPath, Path);
 
     // Пробуем открыть файл
-    std::ifstream File(NewPath.data());
+    std::ifstream File(String::GetPath(NewPath).c_str());
 
     if (!File.is_open())
     {
-        DEBUG_ERROR("Shader file couldn't be opened: ", NewPath.data());
+        DEBUG_ERROR("Shader file couldn't be opened: ", NewPath);
         return std::string();
     }
 
     // Получаем содержимое файла
     std::string Buffer = FS::ReadFile(File);
 
-    // Закрываем открытый раннее файл
     File.close();
-
     return Buffer;
 }
 
-GLuint CShadersManager::Create(const std::string_view Path, GLenum Type)
+GLuint CShadersManager::Create(const std::string& Path, GLenum Type)
 {
-    // Выделяем память под шейдер
     GLuint Shader = glCreateShader(Type);
 
     if (!Shader)
@@ -144,13 +132,12 @@ GLuint CShadersManager::Create(const std::string_view Path, GLenum Type)
         return false;
     }
 
-    // Компилируем
     return Compile(Shader, Path) ? Shader : 0;
 }
 
-GLuint CShadersManager::Get(const char* Name)
+GLuint CShadersManager::Get(const std::string& Name)
 {
-    if (!Name)
+    if (Name.empty())
     {
         DEBUG_WARNING("Shader's name is nullptr!");
         return 0;
@@ -165,7 +152,7 @@ GLuint CShadersManager::Get(const char* Name)
     return (Shaders.find(Name) != Shaders.end()) ? Shaders[Name] : 0;
 }
 
-bool CShadersManager::Compile(const GLuint& ShaderID, const std::string_view Path)
+bool CShadersManager::Compile(const GLuint& ShaderID, const std::string& Path)
 {
     // Получаем исходный код шейдера
     std::string Source = ReadSource(Path);
@@ -181,16 +168,12 @@ bool CShadersManager::Compile(const GLuint& ShaderID, const std::string_view Pat
 
     // Компилируем
     glCompileShader(ShaderID);
-
-    // А после возвращаем статус компиляции
     return GetCompileStatus(ShaderID);
 }
 
 bool CShadersManager::Link(const GLuint& ShaderID)
 {
     glLinkProgram(ShaderID);
-
-    // Возвращаем итог
     return GetLinkStatus(ShaderID);
 }
 
@@ -201,7 +184,6 @@ bool CShadersManager::GetCompileStatus(const GLuint& ShaderID)
     // Получаем статус операции
     glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &Status);
 
-    // Всё прошло хорошо
     if (Status)
         return true;
 
@@ -211,16 +193,12 @@ bool CShadersManager::GetCompileStatus(const GLuint& ShaderID)
 
     if (Size > 1)
     {
-        // Создаём символьный массив для последующего вывода
         GLchar* Log = new GLchar[static_cast<size_t>(Size) + 1];
 
         // Получаем описание проблемы
         glGetShaderInfoLog(ShaderID, Size, &Size, Log);
 
-        // Выводим сообщение в лог
         DEBUG_ERROR("Shader compilation error: ", Log);
-
-        // Не забываем очистить память
         delete[] Log;
     }
 
@@ -234,7 +212,6 @@ bool CShadersManager::GetLinkStatus(const GLuint& ProgramID)
     // Получаем статус операции
     glGetProgramiv(ProgramID, GL_LINK_STATUS, &Status);
 
-    // Всё прошло хорошо
     if (Status)
         return true;
 
@@ -244,16 +221,12 @@ bool CShadersManager::GetLinkStatus(const GLuint& ProgramID)
 
     if (Size > 1)
     {
-        // Создаём символьный массив для последующего вывода
         GLchar* Log = new GLchar[static_cast<size_t>(Size) + 1];
 
         // Получаем описание проблемы
         glGetProgramInfoLog(ProgramID, Size, &Size, Log);
 
-        // Выводим сообщение в лог
         DEBUG_ERROR("Shader linking error: ", Log);
-
-        // Не забываем очистить память
         delete[] Log;
     }
 
@@ -275,4 +248,14 @@ GLint CShadersManager::GetUniformLocation(const GLuint& ShaderID, const char* Na
     }
 
     return Location;
+}
+
+void CShadersManager::SendProjectionMatrix(const glm::mat4& Matrix)
+{
+    for (auto& It : Shaders)
+    {
+        Use(It.first);
+
+        SetMatrix4(Shaders[It.first], "ProjectionMatrix", Matrix);
+    }
 }
