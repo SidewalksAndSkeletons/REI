@@ -1,14 +1,14 @@
 #include "StdAfx.h"
 
 // Индексы, применяемые для отрисовки текстурных квадов
-static GLuint Indices[] =
+static const GLuint Indices[] =
 {
     0, 1, 2,
     2, 3, 0
 };
 
 // Стандартная TexCoord-матрица для отрисовки единого спрайта
-static glm::mat4x2 TexCoordsMatrix =
+static const glm::mat4x2 TexCoordsMatrix =
 {
     0.0f, 0.0f,
     1.0f, 0.0f,
@@ -403,7 +403,7 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h, bool F
     }
 
     // Используемая матрица с текстурными координатами
-    glm::mat4x2& TMat = TexCoordsMatrix;
+    glm::mat4x2 TMat = TexCoordsMatrix;
 
     // Если есть - используем уникальную
     Texture->GetTexCoords(TMat);
