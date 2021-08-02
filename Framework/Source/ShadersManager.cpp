@@ -129,7 +129,7 @@ GLuint CShadersManager::Create(const std::string& Path, GLenum Type)
     if (!Shader)
     {
         DEBUG_ERROR("Failed to create shader program: Shader == 0!");
-        return false;
+        return 0;
     }
 
     return Compile(Shader, Path) ? Shader : 0;
