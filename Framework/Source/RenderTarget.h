@@ -20,8 +20,8 @@ private:
     // Element buffer object
     GLuint EBO;
 
-    // Вертекстный буфер, применяемый при отрисовке
-    std::shared_ptr<CVertexBufferObject> VBO;
+    // Vertex buffer object
+    GLuint VBO;
 
 private:
     // Хранилище, содержащее все загруженные шрифты

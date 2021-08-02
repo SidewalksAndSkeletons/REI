@@ -34,9 +34,6 @@
     <Filter Include="Source Files\Graphics\Render">
       <UniqueIdentifier>{49c6f2c3-f35a-4f17-bd4c-d0caa9404083}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Render\VBO">
-      <UniqueIdentifier>{0ae4cb79-a293-4e23-b4aa-3bb96a2a588f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\Render\Target">
       <UniqueIdentifier>{2a99d679-53c3-4213-addf-94618b508342}</UniqueIdentifier>
     </Filter>
@@ -111,9 +108,6 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Source Files\Graphics\Render\Target</Filter>
     </ClCompile>
-    <ClCompile Include="VBO.cpp">
-      <Filter>Source Files\Graphics\Render\VBO</Filter>
-    </ClCompile>
     <ClCompile Include="SoundTarget.cpp">
       <Filter>Source Files\Sound\Target</Filter>
     </ClCompile>
@@ -163,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
       <Filter>Source Files\Graphics\Render\Target</Filter>
-    </ClInclude>
-    <ClInclude Include="VBO.h">
-      <Filter>Source Files\Graphics\Render\VBO</Filter>
     </ClInclude>
     <ClInclude Include="SoundTarget.h">
       <Filter>Source Files\Sound\Target</Filter>

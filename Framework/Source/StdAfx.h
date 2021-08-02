@@ -55,7 +55,6 @@
 #include "Window.h"
 #include "ShadersManager.h"
 #include "Texture.h"
-#include "VBO.h"
 #include "RenderTarget.h"
 #include "SoundTarget.h"
 #include "KeyboardManager.h"

@@ -147,14 +147,9 @@ bool CRenderTarget::InitGL3()
         return false;
     }
 
-    VBO = VBO->CreateInstance();
-
     // Инициализируем VBO
-    if (!VBO->Init())
-    {
-        DEBUG_ERROR("VBO initialization failed!");
-        return false;
-    }
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     // Инициализируем EBO
     glGenBuffers(1, &EBO);
@@ -196,9 +191,6 @@ void CRenderTarget::RenderFirstPhase()
 
 void CRenderTarget::RenderSecondPhase()
 {
-    // Работаем с VBO
-    VBO->FlushBuffers();
-
     // Обновляем картинку на экране
     Window->Swap();
 }
@@ -260,11 +252,7 @@ void CRenderTarget::LoadColor(std::string_view Name, Uint8 r, Uint8 g, Uint8 b, 
 GLuint CRenderTarget::GenerateTexture(SDL_Surface* Surface, GLuint Format)
 {
     GLuint ID = 0;
-
-    if (!ID)
-    {
-        glGenTextures(1, &ID);
-    }
+    glGenTextures(1, &ID);
 
     // Не удалось сгенерировать - всё плохо
     if (!ID)
@@ -377,10 +365,6 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h, bool F
         DEBUG_ERROR("Texture is nullptr!");
         return;
     }
-
-    // На данный момент текстуры ещё не находятся в буферах, поэтому нам нужно
-    // очиситить все буферы для того, чтобы текстуры отрисовывались в корректной последовательности
-    VBO->FlushBuffers();
 
     // Устанавливаем корректные размеры текстур
     w = (w > 0) ? w : Texture->w();
