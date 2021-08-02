@@ -62,7 +62,7 @@ bool CTexture::InitAnimation(tinyxml2::XMLElement* Node)
     }
     else
     {
-        Shader = ShaderName;
+        Shader = std::move(ShaderName);
     }
 
     return true;
