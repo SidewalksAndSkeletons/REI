@@ -152,7 +152,7 @@ GLuint CShadersManager::Get(const std::string& Name)
     return (Shaders.find(Name) != Shaders.end()) ? Shaders[Name] : 0;
 }
 
-bool CShadersManager::Compile(const GLuint& ShaderID, const std::string& Path)
+bool CShadersManager::Compile(GLuint& ShaderID, const std::string& Path)
 {
     // Получаем исходный код шейдера
     std::string Source = ReadSource(Path);
@@ -171,13 +171,13 @@ bool CShadersManager::Compile(const GLuint& ShaderID, const std::string& Path)
     return GetCompileStatus(ShaderID);
 }
 
-bool CShadersManager::Link(const GLuint& ShaderID)
+bool CShadersManager::Link(GLuint& ShaderID)
 {
     glLinkProgram(ShaderID);
     return GetLinkStatus(ShaderID);
 }
 
-bool CShadersManager::GetCompileStatus(const GLuint& ShaderID)
+bool CShadersManager::GetCompileStatus(GLuint ShaderID)
 {
     GLint Status = 0;
 
@@ -205,7 +205,7 @@ bool CShadersManager::GetCompileStatus(const GLuint& ShaderID)
     return false;
 }
 
-bool CShadersManager::GetLinkStatus(const GLuint& ProgramID)
+bool CShadersManager::GetLinkStatus(GLuint ProgramID)
 {
     GLint Status = 0;
 
@@ -233,7 +233,7 @@ bool CShadersManager::GetLinkStatus(const GLuint& ProgramID)
     return false;
 }
 
-GLint CShadersManager::GetUniformLocation(const GLuint& ShaderID, const char* Name)
+GLint CShadersManager::GetUniformLocation(GLuint& ShaderID, const char* Name)
 {
     // Шейдер не был проинициализирован
     if (!Name || !ShaderID)

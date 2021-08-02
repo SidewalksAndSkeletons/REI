@@ -34,21 +34,21 @@ private:
     GLuint Create(const std::string& Path, GLenum Type);
 
     // *** Скомпилировать исходный код шейдера по указанному пути
-    bool Compile(const GLuint& ShaderID, const std::string& Path);
+    bool Compile(GLuint& ShaderID, const std::string& Path);
 
     // *** Слинковать шейдер
-    bool Link(const GLuint& ShaderID);
+    bool Link(GLuint& ShaderID);
 
 private:
     // *** Проверить статус скомпиленности шейдера
-    bool GetCompileStatus(const GLuint& ShaderID);
+    bool GetCompileStatus(GLuint ShaderID);
 
     // *** Проверить статус линковки шейдера
-    bool GetLinkStatus(const GLuint& ProgramID);
+    bool GetLinkStatus(GLuint ProgramID);
 
 private:
     // *** Получить uniform по его имени
-    GLint GetUniformLocation(const GLuint& ShaderID, const char* Name);
+    GLint GetUniformLocation(GLuint& ShaderID, const char* Name);
 
 public:
     // *** Отправить проекционную матрицу в шейдеры
@@ -56,7 +56,7 @@ public:
 
 public:
     // *** Установить значение matrix-uniform по его имени
-    void SetMatrix4(const GLuint& ShaderID, const char* Name, const glm::mat4& Matrix)
+    void SetMatrix4(GLuint& ShaderID, const char* Name, const glm::mat4& Matrix)
     {
         GLint Location = GetUniformLocation(ShaderID, Name);
         if (Location == -1)
