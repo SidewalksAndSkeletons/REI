@@ -13,8 +13,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Debug|x64.ActiveCfg = Debug|x64
 		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Debug|x64.Build.0 = Debug|x64
-		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Release|x64.ActiveCfg = Debug|x64
-		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Release|x64.Build.0 = Debug|x64
+		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Release|x64.ActiveCfg = Release|x64
+		{1296415B-9AD5-45E3-9A79-6D6E33D40D62}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
