@@ -6,7 +6,7 @@ namespace OpenGL
     // *** Получить середину текстуры
     inline glm::vec2 GetCenter(int x, int y, int w, int h)
     {
-        return { x + (w / 2.0f), y + (h / 2.0f) };
+        return { static_cast<GLfloat>(x + (w / 2)), static_cast<GLfloat>(y + (h / 2)) };
     }
 
     // *** Произвести вращение относительно координат

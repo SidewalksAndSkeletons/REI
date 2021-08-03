@@ -11,7 +11,7 @@
 
 // Functions: Debug
 #ifdef DEBUG
-#include <iostream>
+    #include <iostream>
 #endif
 
 // Functions: Strings
@@ -27,15 +27,27 @@
 // *** SDL2
 // Исправление: "unresolved external symbol main"
 #define SDL_MAIN_HANDLED
-#include <SDL.h>
-#include <SDL_mixer.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#pragma warning(push)
+#pragma warning(disable:4668)
+#pragma warning(disable:4820)
+#pragma warning(disable:4514)
+    #include <SDL.h>
+    #include <SDL_mixer.h>
+    #include <SDL_image.h>
+    #include <SDL_ttf.h>
+#pragma warning(pop)
 
 // *** OpenGL
 #include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
+#pragma warning(push)
+#pragma warning(disable:4201)
+#pragma warning(disable:4464)
+#pragma warning(disable:5214)
+#pragma warning(disable:4514)
+    #include <glm/glm.hpp>
+    #include <glm/gtc/type_ptr.hpp>
+#pragma warning(pop)
 
 // *** Framework
 #include "SystemConstants.h"
@@ -44,8 +56,12 @@
 #include "FunctionsOpenGL.h"
 
 // *** TinyXML2
-#include <TinyXML2.h>
-#include <TinyXML2_Additional.h>
+#pragma warning(push)
+#pragma warning(disable:4514)
+#pragma warning(disable:4820)
+    #include <TinyXML2.h>
+    #include <TinyXML2_Additional.h>
+#pragma warning(pop)
 
 // Исходный код движка
 #include "ISingleton.h"

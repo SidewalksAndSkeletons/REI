@@ -10,7 +10,7 @@ namespace String
         const char* Source;
 
     public:
-        ToCPtr(std::string_view Input) : Source(Input.data()) {}
+        explicit ToCPtr(std::string_view Input) : Source(Input.data()) {}
 
         operator const char** ()
         {
@@ -21,7 +21,7 @@ namespace String
     // *** Безопасный аналог std::atoi
     // (превращение строки в произвольный тип)
     template <class T>
-    T atoi(const std::string_view Source)
+    inline T atoi(const std::string_view Source)
     {
         T Result{};
         std::from_chars(Source.data(), Source.data() + Source.size(), Result);
