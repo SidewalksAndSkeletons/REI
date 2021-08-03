@@ -61,7 +61,7 @@ distribution.
 
 #ifdef _MSC_VER
 #   pragma warning(push)
-#   pragma warning(disable: 4005 4251 6011 6319 26451 26495 26812) //-- EDITED BY ANOTHER AUTHOR
+#   pragma warning(disable: 4514 4820)
 #endif
 
 #ifdef _WIN32
@@ -191,8 +191,8 @@ private:
     char*   _start;
     char*   _end;
 
-    StrPair( const StrPair& other );	// not supported
-    void operator=( const StrPair& other );	// not supported, use TransferTo()
+    StrPair(const StrPair& other) = delete;
+    void operator=(const StrPair& other) = delete;
 };
 
 
@@ -268,9 +268,10 @@ public:
         return _mem[ _size - 1];
     }
 
-    int Size() const					{
-        TIXMLASSERT( _size >= 0 );
-        return _size;
+    int Size() const 
+    {
+        TIXMLASSERT(_size >= 0);
+        return static_cast<int>(_size);
     }
 
     int Capacity() const				{
@@ -296,14 +297,14 @@ public:
     }
 
 private:
-    DynArray( const DynArray& ); // not supported
-    void operator=( const DynArray& ); // not supported
+    DynArray(const DynArray&) = delete;
+    void operator=(const DynArray&) = delete;
 
-    void EnsureCapacity( int cap ) {
+    void EnsureCapacity(size_t cap ) {
         TIXMLASSERT( cap > 0 );
         if ( cap > _allocated ) {
             TIXMLASSERT( cap <= INT_MAX / 2 );
-            const int newAllocated = cap * 2;
+            const size_t newAllocated = cap * 2;
             T* newMem = new T[newAllocated];
             TIXMLASSERT( newAllocated >= _size );
             memcpy( newMem, _mem, sizeof(T)*_size );	// warning: not using constructors, only works for PODs
@@ -317,8 +318,8 @@ private:
 
     T*  _mem;
     T   _pool[INITIAL_SIZE];
-    int _allocated;		// objects allocated
-    int _size;			// number objects in use
+    size_t _allocated;		// objects allocated
+    size_t _size;			// number objects in use
 };
 
 
@@ -437,8 +438,8 @@ public:
     enum { ITEMS_PER_BLOCK = (4 * 1024) / ITEM_SIZE };
 
 private:
-    MemPoolT( const MemPoolT& ); // not supported
-    void operator=( const MemPoolT& ); // not supported
+    MemPoolT(const MemPoolT&) = delete;
+    void operator=(const MemPoolT&) = delete;
 
     union Item {
         Item*   next;
@@ -590,14 +591,15 @@ public:
                || ch == '-';
     }
 
-    inline static bool StringEqual( const char* p, const char* q, int nChar=INT_MAX )  {
-        if ( p == q ) {
+    inline static bool StringEqual(const char* p, const char* q, int nChar = INT_MAX) 
+    {
+        if (p == q) {
             return true;
         }
-        TIXMLASSERT( p );
-        TIXMLASSERT( q );
-        TIXMLASSERT( nChar >= 0 );
-        return strncmp( p, q, nChar ) == 0;
+        TIXMLASSERT(p);
+        TIXMLASSERT(q);
+        TIXMLASSERT(nChar >= 0);
+        return strncmp(p, q, static_cast<size_t>(nChar)) == 0;
     }
 
     inline static bool IsUTF8Continuation( const char p ) {
@@ -965,8 +967,8 @@ private:
     void InsertChildPreamble( XMLNode* insertThis ) const;
     const XMLElement* ToElementWithName( const char* name ) const;
 
-    XMLNode( const XMLNode& );	// not supported
-    XMLNode& operator=( const XMLNode& );	// not supported
+    XMLNode(const XMLNode&) = delete;
+    XMLNode& operator=(const XMLNode&) = delete;
 };
 
 
@@ -1016,8 +1018,8 @@ protected:
 private:
     bool _isCData;
 
-    XMLText( const XMLText& );	// not supported
-    XMLText& operator=( const XMLText& );	// not supported
+    XMLText(const XMLText&) = delete;
+    XMLText& operator=(const XMLText&) = delete;
 };
 
 
@@ -1045,8 +1047,8 @@ protected:
     char* ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr);
 
 private:
-    XMLComment( const XMLComment& );	// not supported
-    XMLComment& operator=( const XMLComment& );	// not supported
+    XMLComment(const XMLComment&) = delete;
+    XMLComment& operator=(const XMLComment&) = delete;
 };
 
 
@@ -1084,8 +1086,8 @@ protected:
     char* ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr );
 
 private:
-    XMLDeclaration( const XMLDeclaration& );	// not supported
-    XMLDeclaration& operator=( const XMLDeclaration& );	// not supported
+    XMLDeclaration(const XMLDeclaration&) = delete;
+    XMLDeclaration& operator=(const XMLDeclaration&) = delete;
 };
 
 
@@ -1119,8 +1121,8 @@ protected:
     char* ParseDeep( char* p, StrPair* parentEndTag, int* curLineNumPtr );
 
 private:
-    XMLUnknown( const XMLUnknown& );	// not supported
-    XMLUnknown& operator=( const XMLUnknown& );	// not supported
+    XMLUnknown(const XMLUnknown&) = delete;
+    XMLUnknown& operator=(const XMLUnknown&) = delete;
 };
 
 
@@ -1237,8 +1239,8 @@ private:
     XMLAttribute() : _name(), _value(),_parseLineNum( 0 ), _next( 0 ), _memPool( 0 ) {}
     virtual ~XMLAttribute()	{}
 
-    XMLAttribute( const XMLAttribute& );	// not supported
-    void operator=( const XMLAttribute& );	// not supported
+    XMLAttribute(const XMLAttribute&) = delete;
+    void operator=(const XMLAttribute&) = delete;
     void SetName( const char* name );
 
     char* ParseDeep( char* p, bool processEntities, int* curLineNumPtr );
@@ -1675,8 +1677,8 @@ protected:
 private:
     XMLElement( XMLDocument* doc );
     virtual ~XMLElement();
-    XMLElement( const XMLElement& );	// not supported
-    void operator=( const XMLElement& );	// not supported
+    XMLElement(const XMLElement&) = delete;
+    void operator=(const XMLElement&) = delete;
 
     XMLAttribute* FindOrCreateAttribute( const char* name );
     char* ParseAttributes( char* p, int* curLineNumPtr );
@@ -1919,8 +1921,8 @@ public:
     }
 
 private:
-    XMLDocument( const XMLDocument& );	// not supported
-    void operator=( const XMLDocument& );	// not supported
+    XMLDocument(const XMLDocument&) = delete;
+    void operator=(const XMLDocument&) = delete;
 
     bool			_writeBOM;
     bool			_processEntities;
@@ -2351,8 +2353,8 @@ private:
     DynArray< char, 20 > _buffer;
 
     // Prohibit cloning, intentionally not implemented
-    XMLPrinter( const XMLPrinter& );
-    XMLPrinter& operator=( const XMLPrinter& );
+    XMLPrinter(const XMLPrinter&) = delete;
+    XMLPrinter& operator=(const XMLPrinter&) = delete;
 };
 
 

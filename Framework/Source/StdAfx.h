@@ -28,9 +28,7 @@
 // Исправление: "unresolved external symbol main"
 #define SDL_MAIN_HANDLED
 #pragma warning(push)
-#pragma warning(disable:4668)
-#pragma warning(disable:4820)
-#pragma warning(disable:4514)
+#pragma warning(disable: 4668 4820 4514)
     #include <SDL.h>
     #include <SDL_mixer.h>
     #include <SDL_image.h>
@@ -41,10 +39,7 @@
 #include <GL/glew.h>
 
 #pragma warning(push)
-#pragma warning(disable:4201)
-#pragma warning(disable:4464)
-#pragma warning(disable:5214)
-#pragma warning(disable:4514)
+#pragma warning(disable: 4201 4464 5214 4514)
     #include <glm/glm.hpp>
     #include <glm/gtc/type_ptr.hpp>
 #pragma warning(pop)
@@ -56,12 +51,8 @@
 #include "FunctionsOpenGL.h"
 
 // *** TinyXML2
-#pragma warning(push)
-#pragma warning(disable:4514)
-#pragma warning(disable:4820)
-    #include <TinyXML2.h>
-    #include <TinyXML2_Additional.h>
-#pragma warning(pop)
+#include <TinyXML2.h>
+#include <TinyXML2_Additional.h>
 
 // Исходный код движка
 #include "ISingleton.h"
