@@ -1,47 +1,24 @@
 #pragma once
 
+#include "TextureAnimation.h"
+
 // *** Класс, представляющий собой обёртку для OpenGL-текстуры
 class CTexture final 
 {
 private:
-    // Имя шейдера
-    std::string Shader;
+    // Информация об анимации
+    CTextureAnimation* AnimationDetails;
 
 private:
-    // Идентификатор текстуры
-    GLuint ID;
-
-private:
-    // Скорость переключения кадров анимации
-    int FrameSpeed;
-
-    // Количество кадров в анимации
-    int FramesCount;
-
-    // Текущий кадр анимации
-    int FrameCurrent;
-
-    // Размеры кадра w * h
-    SRect<int> FrameSize;
-
-    // Оригинальные размеры текстуры
+    // Размеры оригинальной текстуры
     SRect<int> Size;
 
-    // Размеры анимационного листа x * y
-    TRect<int> Rows;
-
-    // Количество времени (процессорных тактов), выделенных под кадр
-    Uint32 FrameTimer;
-
 private:
-    // Использование собственной матрицы с текстурными координатами
-    bool UsingCustomTexCoords;
+    // Имя используемого шейдера
+    std::string Shader;
 
-    // Матрица, содержащая текстурные координаты
-    glm::mat4x2 TexCoords;
-
-    // Буфер для работы с матрицей текстурных координат
-    glm::vec4 TexBuffer;
+    // Идентификатор текстуры
+    GLuint ID;
 
 public:
     CTexture(GLuint PreparedID, int w, int h);
@@ -51,16 +28,9 @@ public:
     // [Основная нода уже открытого конфига; секция с данными об анимации]
     [[nodiscard]] bool InitAnimation(tinyxml2::XMLElement* Node);
 
-private:
-    // *** Разрезать текстуру на кадры
-    void Crope(int w, int h, int Frames = 0);
-
-    // *** Установить активным кадр анимации с указанными индексом
-    void UpdateFrame(int FrameIndex);
-
 public:
-    // *** Обновление анимации
-    void UpdateAnimation();
+    // *** Обновление логики
+    void Update();
 
 public:
     // *** Получить (если есть) уникальную матрицу с текстурными координатами
@@ -72,10 +42,10 @@ public:
 
 public:
     // *** Получить актуальную длину текстуры
-    const int& w();
+    int w();
 
     // *** Получить актуальную ширину текстуры
-    const int& h();
+    int h();
 
 public:
     // *** Получить название использующегося шейдера

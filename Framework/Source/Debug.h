@@ -31,9 +31,6 @@ public:
     std::string GetLogName();
 
 public:
-    // *** Установить статус пойманной ошибки
-    void SetErrorStatus(const bool Value);
-
     // *** Получить статус пойманной ошибки
     bool GetErrorStatus() const;
 

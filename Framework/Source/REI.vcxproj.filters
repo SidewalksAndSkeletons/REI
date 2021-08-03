@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Graphics\Shaders">
       <UniqueIdentifier>{700014b7-5c5a-49e5-a113-53463740e2e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Texture">
-      <UniqueIdentifier>{37c75f48-f3e2-4eba-bb7a-ef41bf2aaecb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Graphics\Render">
       <UniqueIdentifier>{49c6f2c3-f35a-4f17-bd4c-d0caa9404083}</UniqueIdentifier>
     </Filter>
@@ -100,9 +97,6 @@
     <ClCompile Include="ShadersManager.cpp">
       <Filter>Source Files\Graphics\Shaders\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Graphics\Texture</Filter>
-    </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Source Files\Graphics\Render\Target</Filter>
     </ClCompile>
@@ -148,9 +142,6 @@
     <ClInclude Include="ShadersManager.h">
       <Filter>Source Files\Graphics\Shaders\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Source Files\Graphics\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="RenderTarget.h">
       <Filter>Source Files\Graphics\Render\Target</Filter>
     </ClInclude>
@@ -190,5 +181,30 @@
     <Image Include="Icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Filter Include="Source Files\Graphics\Textures">
+      <UniqueIdentifier>{37c75f48-f3e2-4eba-bb7a-ef41bf2aaecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Textures\Base">
+      <UniqueIdentifier>{666fc2be-3f71-4639-86cf-67f435e7dfec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Textures\Animation">
+      <UniqueIdentifier>{def29692-e073-43c3-b981-337e3d4f12b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Texture.h">
+      <Filter>Source Files\Graphics\Textures\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureAnimation.h">
+      <Filter>Source Files\Graphics\Textures\Animation</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphics\Textures\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAnimation.cpp">
+      <Filter>Source Files\Graphics\Textures\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

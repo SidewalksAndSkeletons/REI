@@ -60,11 +60,6 @@ std::string CDebug::GetLogName()
     return LogName;
 }
 
-void CDebug::SetErrorStatus(const bool Value)
-{
-    ErrorStatus = Value;
-}
-
 bool CDebug::GetErrorStatus() const
 {
     return ErrorStatus;
@@ -130,7 +125,7 @@ void CDebug::PrintTitle(EVENT_TYPES Type, const char* File, int Line, const char
         if (!GetErrorStatus())
         {
             // При следующей итерации начинаем выход из программы
-            SetErrorStatus(true);
+            ErrorStatus = true;
 
             // Выводим окно с сообщением об ошибке
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ENGINE ERROR", "For details check log-file", nullptr);

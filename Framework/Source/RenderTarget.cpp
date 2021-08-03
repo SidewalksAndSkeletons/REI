@@ -422,7 +422,8 @@ void CRenderTarget::Render(CTexture* Texture, int x, int y, int w, int h, bool F
     };
 
     // Используем шейдер для отрисовки текста
-    ShadersManager->Use(Texture->GetShader());
+    const std::string& ShaderName = Texture->GetShader();
+    ShadersManager->Use(ShaderName.empty() ? "Default" : ShaderName);
 
     // Связываем активную текстуру с идентификатором
     glBindTexture(GL_TEXTURE_2D, Texture->GetID());

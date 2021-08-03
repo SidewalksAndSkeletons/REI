@@ -19,7 +19,6 @@ enum class EXIT_TYPE : int
 	UNDEFINED_ERROR
 };
 
-// *** Точка входа в программу
 int main(int KeysCount, char** Keys)
 {
     auto GetErrorCode = [](EXIT_TYPE ERROR_CODE) -> int
@@ -43,22 +42,16 @@ int main(int KeysCount, char** Keys)
         return GetErrorCode(EXIT_TYPE::INIT_ERROR);
     }
 
-    // Обрабатываем ключи
     Kernel->ParseKeys(KeysCount, Keys);
 
-    // Запускаем игровой цикл
     while (Kernel->GetRunningStatus() && !Debug->GetErrorStatus())
     {
-        // Отрисовка объектов
         Kernel->Render();
 
-        // Обработка SDL-событий
         Kernel->HandleEvents();
 
-        // Обновление логики
         Kernel->Update();
     }
 
-    // Определяем наличие ошибки во время выполнения
     return GetErrorCode(Debug->GetErrorStatus() ? EXIT_TYPE::RUNTIME_ERROR : EXIT_TYPE::SUCCESS);
 }

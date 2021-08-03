@@ -41,12 +41,6 @@ bool CKernel::Init()
     // Инициализация обработчика ввода
     KeyboardManager = KeyboardManager->CreateInstance();
 
-    if (!Actor.Init())
-    {
-        DEBUG_ERROR("Actor initialization failed!");
-        return false;
-    }
-
     // Запускаем работу движка
     RunningStatus = true;
 
@@ -60,15 +54,11 @@ void CKernel::Update()
     {
         Exit();
     }
-
-    Actor.Update();
 }
 
 void CKernel::Render()
 {
     RenderTarget->RenderFirstPhase();
-
-    Actor.Render();
 
     RenderTarget->RenderSecondPhase();
 }

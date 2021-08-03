@@ -54,7 +54,7 @@
 #include <TinyXML2.h>
 #include <TinyXML2_Additional.h>
 
-// Исходный код движка
+// *** Source
 #include "ISingleton.h"
 #include "Debug.h"
 #include "DebugMacros.h"
@@ -66,5 +66,4 @@
 #include "SoundTarget.h"
 #include "KeyboardManager.h"
 #include "GameObject.h"
-#include "Actor.h"
 #include "Kernel.h"

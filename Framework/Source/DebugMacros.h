@@ -1,13 +1,11 @@
 #pragma once
 
-// *** Вывести сообщение
 template <class T>
 inline void DEBUG_PRINT(T&& Msg)
 {
     Debug->PrintMessage(Msg);
 }
 
-// *** Вывести сообщения
 template <class T1, class... T2>
 inline void DEBUG_PRINT(T1&& First, T2&&... End)
 {
